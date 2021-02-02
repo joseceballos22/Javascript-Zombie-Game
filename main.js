@@ -115,14 +115,22 @@ class Clicker {
     /**
      * Updates All the components a clicker has
      */
-    updateComponents(userTime) {
+    updateComponents(userTime, userMoney) {
         
         /**Everytime the Button Gets Clicked  */
         this.clicker.onclick = function() {
+            
+            //Updating latest time 
             let userNumTime = parseInt(userTime.innerHTML.split(" ")[1]); //getting the latest Time
             userNumTime--; //Subtracting one 
             userTime.innerHTML = userTime.innerHTML.split(" ")[0] + " " + userNumTime;
             console.log("User Pressed Button")
+
+            //Updating Money 
+            let userNumMoney = parseInt(userMoney.innerHTML.split(" ")[1]); //Getting the latest Money 
+            userNumMoney++; //Adding one dollar for every click 
+            userMoney.innerHTML = userMoney.innerHTML.split(" ")[0] + " " + userNumMoney;  //Incrementing the Money Label
+
         };
     }
     
@@ -173,7 +181,7 @@ class ClickerGame {
     updateComponents() {
 
         /**Updates the User Time Every Time the User Presses the Button */
-        this.clicker.updateComponents(this.userTime); //Updating all the components of the Clicker 
+        this.clicker.updateComponents(this.userTime, this.userMoney); //Updating all the components of the Clicker 
     }
 
 }
