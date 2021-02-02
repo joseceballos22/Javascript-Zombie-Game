@@ -52,6 +52,13 @@ class Zombie {
     updateComponents() {
 
     }
+    
+    /**
+     * This is like the Draw function in the sense that it refreshs the components after they have been updated 
+     */
+    refreshComponents() {
+
+    }
 }
 
 /**
@@ -68,6 +75,13 @@ class Human {
     updateComponents() {
 
     }
+    
+    /**
+     * This is like the Draw function in the sense that it refreshs the components after they have been updated 
+     */
+    refreshComponents() {
+
+    }
 }
 
 /**
@@ -81,9 +95,17 @@ class Clicker {
     /**
      * Updates All the components a clicker has
      */
-    updateComponents() {
-
+    updateComponents(userTime) {
+        
+        /**Everytime the Button Gets Clicked  */
+        this.clicker.onclick = function() {
+            let userNumTime = parseInt(userTime.innerHTML.split(" ")[1]); //getting the latest Time
+            userNumTime--; //Subtracting one 
+            userTime.innerHTML = userTime.innerHTML.split(" ")[0] + " " + userNumTime;
+            console.log("User Pressed Button")
+        };
     }
+    
 }
 
 /**
@@ -95,10 +117,15 @@ class ClickerGame {
         //Creating a Clicker 
         this.clicker = new Clicker(); 
 
+        //Making the User Info Elements Visible 
+        document.getElementById("userInfo").style.display = "block";
+
         //Getting the User Info Elements 
         this.userTime = document.getElementById("userTime");
+        // this.userNumTime = parseInt(this.userTime.innerHTML.split(" ")[this.userTime.innerHTML.split(" ").length -1]);//Represents the UserTime as an Integer
         this.userMoney = document.getElementById("userMoney");
         this.userInventory = document.getElementById("userInventoryList"); //Will hold the ammo, guns, etc ... 
+    
     }
     /**
      * Starts the Game 
@@ -110,6 +137,13 @@ class ClickerGame {
         //Changing the title To a happy Title 
         document.getElementById("title").innerHTML = "Happy Land";
 
+        /**Automatically Decrease the time by one second */
+        setInterval(function() {
+            let userNumTime = parseInt(this.userTime.innerHTML.split(" ")[1]); //Getting the Latest Time
+            userNumTime--; //Subtracting one every Second
+            this.userTime.innerHTML = this.userTime.innerHTML.split(" ")[0] + " " + userNumTime;
+        }, 1000); 
+
         this.updateComponents(); //Calling the Update Function 
     }
 
@@ -117,8 +151,11 @@ class ClickerGame {
      * Updates All the Components of the Game 
      */
     updateComponents() {
-        this.clicker.updateComponents(); //Updating all the components of the Clicker 
+
+        /**Updates the User Time Every Time the User Presses the Button */
+        this.clicker.updateComponents(this.userTime); //Updating all the components of the Clicker 
     }
+
 }
 
 /**
