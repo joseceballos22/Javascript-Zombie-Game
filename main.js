@@ -39,6 +39,26 @@
  */
 
 /**
+ * Things Left To Do For Clicker Game:
+ * - Make it so that when the player clicks Earn Money Money Goes UP as Well 
+ * - Add A Button Shop which will initially Sell 
+ * - (Get another Job ) And this will exponentially grow Which will double money earned and double time lost 
+ * - (Buy Ammo ) Which will Exponentially Increase As the Player buys more ammo (Supply and demand) and be stored in the players inventory 
+ * - (Buy Pistol) Which can only be bought once and then just ammo for it 
+ * 
+ * - FUTURE THINGS
+ * - Buy Lives 
+ * - Buy Armor
+ * - Buy AK- 47 
+ * - Buy Submachine gun 
+ * 
+ * - Then Make it so that when the time runs out the zombie game will start and the player will join with his inventory stuff 
+ * 
+ * Things Left To DO For the Zombie Game: 
+ * - (DO THE ENTIRE GAME WATCH VIDEO ON HOW TO DO THIS ) 
+ */
+
+/**
  * Represents the Zombie
  */
 class Zombie {
@@ -225,8 +245,6 @@ function main() {
 
     clickerGame = new ClickerGame();
     clickerGame.start(); 
-
-
 
 }
 main(); 
