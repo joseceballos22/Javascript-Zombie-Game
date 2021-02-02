@@ -10,10 +10,12 @@
  * - And you know something big is coming 
  * 
  * - Starting the Game:
- * - You start with Time equals 30 Days 
- * - All you have is a button which says (go to work) which everytime you click on it it removes time from the clock and gives you money 
+ * - You start with Time equals 86400 Seconds (One Day Real Life)
+ * - Every Real Second One Second Goes Down 
+ * 
+ * - All you have is a button which says (Earn Money) which everytime you click on it it removes 1 second time from the clock and gives you money 
  * - Every time you click it saves your money 
- * - Then you will have options to buy guns
+ * - Then you will have options to buy guns waste money but expensive 
  * - Buy Ammo  
  * - Work another job (which will cost you time) but will get you more money faster 
  * 
@@ -57,10 +59,29 @@ class Human {
 }
 
 /**
- * The Actual Game 
+ * Represents the Clicker 
  */
-class Game {
+class Clicker {
     constructor() {
+        this.clicker = document.getElementById("clicker");
+        this.clicker.style.display = "block"; //Enabling the Clicker 
+    }
+    /**
+     * Updates All the components a clicker has
+     */
+    updateComponents() {
+
+    }
+}
+
+/**
+ * The Clicker Game First Part  
+ */
+class ClickerGame {
+    constructor() {
+
+        //Creating a Clicker 
+        this.clicker = new Clicker(); 
 
     }
     /**
@@ -68,13 +89,19 @@ class Game {
      */
     start() {
 
+        //Turning the Background into a Happy Background 
+        document.getElementsByTagName("body")[0].style.backgroundImage = "url(images/happyBackground.jpg)";
+        //Changing the title To a happy Title 
+        document.getElementById("title").innerHTML = "Happy Land";
+
+        this.updateComponents(); //Calling the Update Function 
     }
 
     /**
      * Updates All the Components of the Game 
      */
-    update() {
-
+    updateComponents() {
+        this.clicker.updateComponents(); //Updating all the components of the Clicker 
     }
 }
 
@@ -109,7 +136,7 @@ function showMainMenu() {
     }, 11000);
     setTimeout(function() {
         hideText(["main_menu_4"]);
-    }, 13000);
+    }, 15000);
 
 }
 
@@ -128,10 +155,25 @@ function hideText(lstOfElementsIds) {
  */
 function main() {
 
-    showMainMenu(); //First it will show the main menu then go to the game
-    setTimeout(function() {
+    // /**
+    //  * ------------- UnComment Once You Finished the Game -------------
+    //  */
+    // showMainMenu(); //First it will show the main menu then go to the game
+    // setTimeout(function() {
 
-        //Place Game Code In Here 
-    }, 13000); //Will Start the Game After the Main Menu Screen Is Done 
+    //     //Place Game Code In Here 
+    //     //First thing Doing the clicker Game 
+    //     clickerGame = new ClickerGame(); 
+    //     clickerGame.start(); //Starting the Clicker Game 
+
+    //     //Second Thing Doing the Zombie Game 
+
+    // }, 15000); //Will Start the Game After the Main Menu Screen Is Done 
+
+    clickerGame = new ClickerGame();
+    clickerGame.start(); 
+
+
+
 }
 main(); 
