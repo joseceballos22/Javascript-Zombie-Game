@@ -19,10 +19,22 @@
  * - Buy Ammo  
  * - Work another job (which will cost you time) but will get you more money faster 
  * 
- * - Once your time runs out It has begun 
+ * - For the clicker game the user will need money, time, and inventory which is a un ordered list of things the user bought 
+ * - These things in the inventory will be taken to the file boss round 
  * 
+ * 
+ * 
+ * 
+ * - Once your time runs out It has begun (The Zombie Survival Game) (watch video on how to build this )
  * - you then switch to a zombie surivial game where all you have is the stuff you saved and your goal is to surive the wave of 100 zombies 
  * And if you do you win other wise you failed 
+ * 
+ * 
+ * Future Things To Add: 
+ * - Add sound 
+ * - Add more guns to the clicker game and the zombie game 
+ * - Add Zombie waves 
+ * - See how long they can survive 
  * 
  */
 
@@ -83,6 +95,10 @@ class ClickerGame {
         //Creating a Clicker 
         this.clicker = new Clicker(); 
 
+        //Getting the User Info Elements 
+        this.userTime = document.getElementById("userTime");
+        this.userMoney = document.getElementById("userMoney");
+        this.userInventory = document.getElementById("userInventoryList"); //Will hold the ammo, guns, etc ... 
     }
     /**
      * Starts the Game 

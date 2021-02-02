@@ -28,11 +28,40 @@ body {
 }
 
 
+/* 
+    Normal Text Used For Displaying Information in a clear manner
+*/
+.text {
+    color: black;
+    position: absolute;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 50px;
+    -webkit-text-stroke: 2px black; 
+    font-weight: bolder;
+    padding: 10px;
+}
+
+/*
+    Used To Position Users Money, Time, Inventory  
+*/
+.user_info {
+    position: absolute;
+    top: 230px;
+    left: 50px;
+    color: black;
+    position: absolute;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 50px;
+    -webkit-text-stroke: 2px black; 
+    font-weight: bolder;
+    padding: 10px;
+}
+
 .clicker {
     font-size: 50px;
     position: absolute;
     top: 500px;
-    left: 300px;    
+    left: 400px;    
     background-color: rgb(175, 170, 170);
     font-weight: bolder;
     font-family: Arial, Helvetica, sans-serif;
@@ -85,116 +114,4 @@ body {
     0% { background-position: 0 0; }
     50% { background-position: 100% 0; }
     100% { background-position: 0 0; }
-}
-
-/* Falling Money Animation */
-
-/* main container */
-.container{
-	top:0px;
-	background:#fff;
-	width:100%;
-	height:100%;
-  min-height: 800px;
-	position:absolute;
-	left:0%;
-/* 	background:#1E1E20 url(http://premiumcoding.com/CSSTricks/fallingLeaves/autumn.jpg) center top no-repeat; */
-  background-size: cover;
-}
-
-.loader {
-    text-align: center;
-}
-.loader span {
-    display: inline-block;
-    
-   
-	  margin: -280px 40px 54px  -34px;
-         background:url("https://cdn.theatlantic.com/assets/media/img/posts/Screen%20Shot%202013-10-08%20at%209.13.38%20AM.png");
-  background-size: contain;
-    
-    -webkit-animation: loader 10s infinite  linear;
-    -moz-animation: loader 10s infinite  linear;
-}
-.loader span:nth-child(5n+5) {
-
-    -webkit-animation-delay: 1.3s;
-    -moz-animation-delay: 1.3s;
-}
-.loader span:nth-child(3n+2) {
-
-    -webkit-animation-delay: 1.5s;
-    -moz-animation-delay: 1.5s;
-}
-.loader span:nth-child(2n+5) {
-
-    -webkit-animation-delay: 1.7s;
-    -moz-animation-delay: 1.7s;
-}
-
-.loader span:nth-child(3n+10) {
-
-    -webkit-animation-delay: 2.7s;
-    -moz-animation-delay: 2.7s;
-}
-.loader span:nth-child(7n+2) {
-
-    -webkit-animation-delay: 3.5s;
-    -moz-animation-delay: 3.5s;
-}
-.loader span:nth-child(4n+5) {
-
-    -webkit-animation-delay: 5.5s;
-    -moz-animation-delay: 5.5s;
-}
-.loader span:nth-child(3n+7) {
-
-    -webkit-animation-delay: 8s;
-    -moz-animation-delay: 8s;
-}
-@-webkit-keyframes loader {
-  0% {
-    width: 80px;
-    height: 80px;
-    opacity: 1;
-
-	-webkit-transform: translate(0, 0px) rotateZ(0deg);
-  }
-  75% {
-    width: 80px;
-    height: 80px;
-    opacity: 1;
-
-	-webkit-transform: translate(100px, 600px) rotateZ(270deg); 
-  }
-  100% {
-    width: 80px;
-    height: 80px;
-    opacity: 0;
-
-	-webkit-transform: translate(150px, 800px) rotateZ(360deg);
-  }
-}
-@-moz-keyframes loader {
-  0% {
-    width: 80px;
-    height: 80px;
-    opacity: 1;
-    
-	-webkit-transform: translate(0, 0px) rotateZ(0deg);
-  }
-  75% {
-    width: 80px;
-    height: 80px;
-    opacity: 1;
-   
-	-webkit-transform: translate(100px, 600px) rotateZ(270deg); 
-  }
-  100% {
-    width: 80px;
-    height: 80px;
-    opacity: 0;
-    
-	-webkit-transform: translate(150px, 800px) rotateZ(360deg);
-  }
 }
