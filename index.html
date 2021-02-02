@@ -32,21 +32,22 @@
         <div>Inventory: </div>
         <ul id="userInventoryList"> <!--Will Contain Ammo, Guns, Etc.. -->
         </ul>
+        <div id="userMultiplier" style="display: none;">1</div> <!--Needed to Dynamically Change During Game-->
     </div>
 
     <!-- This Will Represent the User Shop For the Clicker Game -->
-    <div class="user_shop" style="display: block;">
+    <div class="user_shop" id="userShop" style="display: none;">
         <div>
             <button class="user_shop_item glow-on-hover" id="getAnotherJob">Get Another Job: 30</button> <!--Doubles the User Income per click but waste double the time-->
         </div>
         <div>
-            <button class="user_shop_item glow-on-hover" id="hireWorker">Hire A Worker: 50</button> <!--Automatically Clicks For you using your multiplyer-->
+            <button class="user_shop_item glow-on-hover" id="hireWorker">Hire A Worker: 500</button> <!--Automatically Clicks For you using your multiplyer-->
         </div>
         <div> 
-            <button class="user_shop_item glow-on-hover" id="buyAmmo">Buy Ammo: 30</button> <!--Doubles in Price as the per ammo (Need a Pistol Before Can Purchase)-->
+            <button class="user_shop_item glow-on-hover" id="buyAmmo">Buy Ammo: 100</button> <!--Doubles in Price as the per ammo (Need a Pistol Before Can Purchase)-->
         </div>
         <div>
-            <button class="user_shop_item glow-on-hover" id="buyPistol">Buy Pistol: 1000</button> <!--It's only a one time purchase-->
+            <button class="user_shop_item glow-on-hover" id="buyPistol">Buy Pistol: 10000</button> <!--It's only a one time purchase-->
         </div>
 
     </div>

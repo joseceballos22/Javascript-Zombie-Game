@@ -31,11 +31,18 @@
  * 
  * 
  * Future Things To Add: 
+ * - Fix the initial prices of the game 
  * - Add sound 
+ * - Replace All Classes into separate files and just export them (And have a Main Game Class which will do work main function doing)
  * - Add more guns to the clicker game and the zombie game 
+ * - FUTURE SHOP THINGS 
+ *      - Buy Lives 
+ *      - Buy Armor
+ *      - Buy AK- 47 
+ *      - Buy Submachine gun 
  * - Add Zombie waves 
  * - See how long they can survive 
- * 
+ * - Fix hardcoded array usuage throughout the program (Make it so that it depends on length )
  */
 
 /**
@@ -46,19 +53,23 @@
  * - (Buy Ammo ) Which will Exponentially Increase As the Player buys more ammo (Supply and demand) and be stored in the players inventory 
  * - (Buy Pistol) Which can only be bought once and then just ammo for it 
  * 
- * - Fix the initial prices of the game 
  * 
- * - FUTURE THINGS
- * - Buy Lives 
- * - Buy Armor
- * - Buy AK- 47 
- * - Buy Submachine gun 
+ * - Hook Up the Buttons them Up 
+ * 
  * 
  * - Then Make it so that when the time runs out the zombie game will start and the player will join with his inventory stuff 
  * 
  * Things Left To DO For the Zombie Game: 
  * - (DO THE ENTIRE GAME WATCH VIDEO ON HOW TO DO THIS ) 
  */
+
+/**
+ * Represents the Economy Of the Clicker Game
+ */
+const USER_MULTIPLIER_FACTOR = 2; //User Will get twice as strong 
+const USER_PRICE_FACTOR = 3; //While prices get three times as strong 
+
+
 
 /**
  * Represents the Zombie
@@ -107,6 +118,11 @@ class Human {
 }
 
 /**
+ * ----------------- Everything Above Here Represents the Zombie Game ---------------------
+ * Everything Below Here Represents the Clicker Game 
+ */
+
+/**
  * Represents the Clicker 
  */
 class Clicker {
@@ -117,25 +133,198 @@ class Clicker {
     /**
      * Updates All the components a clicker has
      */
-    updateComponents(userTime, userMoney) {
+    updateComponents(user) {
+
+        const {
+            userTime,
+            userMoney,
+            userMultiplier,
+        } = user;
         
         /**Everytime the Button Gets Clicked  */
         this.clicker.onclick = function() {
-            
-            //Updating latest time 
-            let userNumTime = parseInt(userTime.innerHTML.split(" ")[1]); //getting the latest Time
-            userNumTime--; //Subtracting one 
-            userTime.innerHTML = userTime.innerHTML.split(" ")[0] + " " + userNumTime;
-            console.log("User Pressed Button")
 
-            //Updating Money 
-            let userNumMoney = parseInt(userMoney.innerHTML.split(" ")[1]); //Getting the latest Money 
-            userNumMoney++; //Adding one dollar for every click 
-            userMoney.innerHTML = userMoney.innerHTML.split(" ")[0] + " " + userNumMoney;  //Incrementing the Money Label
+            //Ensuring the Time is Not Zero 
+            let getCurrentTime = parseInt(userTime.innerHTML.split(" ")[1]);
+            if(getCurrentTime > 0) {
+                //Time is Gets affected by money made therefore we will subtract the same from both 
+                let factor =  parseInt(userMultiplier.innerHTML);
 
+                //Updating latest time 
+                let userNumTime = parseInt(userTime.innerHTML.split(" ")[1]); //getting the latest Time
+                userNumTime -= factor; //Subtracting one 
+                userTime.innerHTML = userTime.innerHTML.split(" ")[0] + " " + userNumTime;
+                console.log("User Pressed Button")
+
+                //Updating Money 
+                let userNumMoney = parseInt(userMoney.innerHTML.split(" ")[1]); //Getting the latest Money 
+                userNumMoney += factor; //Adding one dollar times the factor for every click 
+                userMoney.innerHTML = userMoney.innerHTML.split(" ")[0] + " " + userNumMoney;  //Incrementing the Money Label
+
+            }
+            getCurrentTime = parseInt(userTime.innerHTML.split(" ")[1]); //Getting Current Time Again 
+            //Ensures no Negative Time 
+            if(getCurrentTime <= 0) {
+                userTime.innerHTML = userTime.innerHTML.split(" ")[0] + " " + 0;
+            }
         };
     }
     
+}
+
+/**
+ * Represents the User Shop 
+ */
+class UserShop {
+    constructor() {
+        //Making the User Shop Elements Visible 
+        document.getElementById("userShop").style.display = "block";
+
+        //Getting the User Shop Elements 
+        this.userGetAnotherJob = document.getElementById("getAnotherJob");
+        this.userHireWorker = document.getElementById("hireWorker");
+        this.userBuyAmmo = document.getElementById("buyAmmo");
+        this.userBuyPistol = document.getElementById("buyPistol");
+    }
+
+    /**
+     * Updates all the components of the user shop 
+     */
+    updateComponents(user) {
+
+        const {
+            userTime,
+            userMoney,
+            userInventory,
+        } = user;
+
+        //Needed Since (This variable not allowed in dynamic function calls)
+        const userGetAnotherJobTag = this.userGetAnotherJob;
+        const userHireWorkerTag = this.userHireWorker;
+
+        /**Checking If User Wants to Get another Job */
+        this.userGetAnotherJob.onclick = function() {
+            /**First Check if the user Has the money for it  */
+            let oldMoney = parseInt(userMoney.innerHTML.split(" ")[1]);
+            let oldPrice = parseInt(userGetAnotherJobTag.innerHTML.split(" ")[3]);
+            
+            const userHasMoney = (oldMoney >= oldPrice) ? true : false;
+            console.log(userHasMoney)
+            if(userHasMoney) {
+                //Updating the User Multiplier
+                let oldMultiplier = parseInt(user.userMultiplier.innerHTML);
+                let newMultiplier = Math.round(oldMultiplier * USER_MULTIPLIER_FACTOR);
+
+                user.userMultiplier.innerHTML = newMultiplier.toString();
+
+                //Updating the user money Tag And the Price of the Upgrade 
+                let newMoney = oldMoney - oldPrice;
+                user.userMoney.innerHTML = userMoney.innerHTML.split(" ")[0] + " " + newMoney; 
+
+                let newPrice = oldPrice * USER_PRICE_FACTOR; 
+                let tempLst = userGetAnotherJobTag.innerHTML.split(" ");
+                let firstPartMsg = "";
+                //Don't want the last element
+                for(let i = 0; i < tempLst.length - 1; i++) {
+                    firstPartMsg += tempLst[i] + " "; 
+                }
+                userGetAnotherJobTag.innerHTML = firstPartMsg + newPrice;
+            }
+
+        }
+        /**
+         * Checking if the user Wants to hire a worker 
+         */
+        this.userHireWorker.onclick = function() {
+             /**First Check if the user Has the money for it  */
+             let oldMoney = parseInt(userMoney.innerHTML.split(" ")[1]);
+             let oldPrice = parseInt(userHireWorkerTag.innerHTML.split(" ")[3]);
+             
+             //Used For Debugging
+             console.log("MONEY" + oldMoney); 
+             console.log("PRICE " + oldPrice);
+ 
+             const userHasMoney = (oldMoney >= oldPrice) ? true : false;
+             console.log(userHasMoney)
+             if(userHasMoney) {
+                //Setting a Worker To Click Every Second Using the Players Multiplier 
+                setInterval(function() {
+                    
+                    //Ensuring the Time is Not Zero 
+                    let getCurrentTime = parseInt(userTime.innerHTML.split(" ")[1]);
+                    if(getCurrentTime > 0) {
+                        //Subtracting the Time 
+                        let userNumTime = parseInt(userTime.innerHTML.split(" ")[1]); //Getting the Latest Time
+                        let factor =  parseInt(user.userMultiplier.innerHTML);
+                        userNumTime -= factor; //Using the Players Multipler 
+                        this.userTime.innerHTML = userTime.innerHTML.split(" ")[0] + " " + userNumTime;
+
+                        //Getting Money From the worker and updating tag 
+                        let userNumMoney = parseInt(userMoney.innerHTML.split(" ")[1]); //Getting the latest Money 
+                        userNumMoney += factor; //Adding one dollar times the factor for every click 
+                        userMoney.innerHTML = userMoney.innerHTML.split(" ")[0] + " " + userNumMoney;  //Incrementing the Money Label
+                        
+                        console.log("Time Wasted " + userNumTime);
+                        console.log("Getting Money: " + userNumMoney);
+                    }
+
+                    getCurrentTime = parseInt(userTime.innerHTML.split(" ")[1]); //Getting Current Time Again 
+                    //Ensures no Negative Time 
+                    if(getCurrentTime <= 0) {
+                        userTime.innerHTML = userTime.innerHTML.split(" ")[0] + " " + 0;
+                    }
+
+                 }, 1000);
+
+                 //Subtracting Money And Changing Price Money Of Worker 
+                 //Updating the user money Tag And the Price of the Upgrade 
+                let newMoney = oldMoney - oldPrice;
+                user.userMoney.innerHTML = userMoney.innerHTML.split(" ")[0] + " " + newMoney; 
+
+                let newPrice = oldPrice * USER_PRICE_FACTOR; 
+                let tempLst = userHireWorkerTag.innerHTML.split(" ");
+                let firstPartMsg = "";
+                //Don't want the last element
+                for(let i = 0; i < tempLst.length - 1; i++) {
+                    firstPartMsg += tempLst[i] + " "; 
+                }
+                userHireWorkerTag.innerHTML = firstPartMsg + newPrice;
+             }
+        }
+    }
+
+}
+
+/**
+ * Represents the User Of the Clicker Game 
+ */
+class User {
+    constructor() {
+        //Making the User Info Elements Visible 
+        document.getElementById("userInfo").style.display = "block";
+
+        //Getting the User Info Elements 
+        this.userTime = document.getElementById("userTime");
+        // this.userNumTime = parseInt(this.userTime.innerHTML.split(" ")[this.userTime.innerHTML.split(" ").length -1]);//Represents the UserTime as an Integer
+        this.userMoney = document.getElementById("userMoney");
+        this.userInventory = document.getElementById("userInventoryList"); //Will hold the ammo, guns, etc ... 
+        
+        this.userMultiplier = document.getElementById("userMultiplier"); //Initially Multiplying by one 
+
+        //Defining the Actual Javascript Representations Of the Html elements 
+        this.userNumTime = parseInt(this.userTime.innerHTML.split(" ")[1]);
+        this.userNumMoney = parseInt(this.userMoney.innerHTML.split(" ")[1]);
+
+        this.userInventory = []; //Initially Its an empty list (Will Set this up later)
+    }
+    /**
+     * Updates all the components a user has 
+     */
+    updateComponents() {
+        // //Constantly Updates the UserTime With the Latest Time 
+        // this.userTime.innerHTML = this.userTime.innerHTML.split(" ")[0] + " " + this.userNumTime;
+        // this.userMoney.innerHTML = this.userMoney.innerHTML.split(" ")[0] + " " + this.userNumMoney;
+    }
 }
 
 /**
@@ -147,15 +336,12 @@ class ClickerGame {
         //Creating a Clicker 
         this.clicker = new Clicker(); 
 
-        //Making the User Info Elements Visible 
-        document.getElementById("userInfo").style.display = "block";
+        //Creating a User Shop 
+        this.userShop = new UserShop(); 
 
-        //Getting the User Info Elements 
-        this.userTime = document.getElementById("userTime");
-        // this.userNumTime = parseInt(this.userTime.innerHTML.split(" ")[this.userTime.innerHTML.split(" ").length -1]);//Represents the UserTime as an Integer
-        this.userMoney = document.getElementById("userMoney");
-        this.userInventory = document.getElementById("userInventoryList"); //Will hold the ammo, guns, etc ... 
-    
+        //Creating a User 
+        this.user = new User(); 
+
     }
     /**
      * Starts the Game 
@@ -167,11 +353,25 @@ class ClickerGame {
         //Changing the title To a happy Title 
         document.getElementById("title").innerHTML = "Happy Land";
 
+        const userTime = this.user.userTime;
         /**Automatically Decrease the time by one second */
         setInterval(function() {
-            let userNumTime = parseInt(this.userTime.innerHTML.split(" ")[1]); //Getting the Latest Time
-            userNumTime--; //Subtracting one every Second
-            this.userTime.innerHTML = this.userTime.innerHTML.split(" ")[0] + " " + userNumTime;
+
+            //Ensuring the Time is Not Zero 
+            let getCurrentTime = parseInt(userTime.innerHTML.split(" ")[1]);
+            if(getCurrentTime > 0) {
+                let userNumTime = parseInt(userTime.innerHTML.split(" ")[1]); //Getting the Latest Time
+                userNumTime--; //Subtracting one every Second
+                this.userTime.innerHTML = userTime.innerHTML.split(" ")[0] + " " + userNumTime;
+            }
+
+            getCurrentTime = parseInt(userTime.innerHTML.split(" ")[1]); //Getting Current Time Again 
+            //Ensures no Negative Time 
+            if(getCurrentTime <= 0) {
+                userTime.innerHTML = userTime.innerHTML.split(" ")[0] + " " + 0;
+            }
+
+
         }, 1000); 
 
         this.updateComponents(); //Calling the Update Function 
@@ -183,7 +383,13 @@ class ClickerGame {
     updateComponents() {
 
         /**Updates the User Time Every Time the User Presses the Button */
-        this.clicker.updateComponents(this.userTime, this.userMoney); //Updating all the components of the Clicker 
+        this.clicker.updateComponents(this.user); 
+
+        /**Updates the User Shop  */
+        this.userShop.updateComponents(this.user); 
+
+        /**Updates the User */
+        this.user.updateComponents(); 
     }
 
 }
