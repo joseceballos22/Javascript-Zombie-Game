@@ -69,6 +69,7 @@
 const USER_MULTIPLIER_FACTOR = 2; //User Will get twice as strong 
 const USER_PRICE_FACTOR = 3; //While prices get three times as strong 
 
+const USER_WEAPON_FACTOR = 10; //Makes it so that they can only Buy 1 Of each 
 
 
 /**
@@ -201,6 +202,8 @@ class UserShop {
         //Needed Since (This variable not allowed in dynamic function calls)
         const userGetAnotherJobTag = this.userGetAnotherJob;
         const userHireWorkerTag = this.userHireWorker;
+        const userBuyAmmoTag = this.userBuyAmmo;
+        const userBuyPistolTag = this.userBuyPistol;
 
         /**Checking If User Wants to Get another Job */
         this.userGetAnotherJob.onclick = function() {
@@ -240,10 +243,6 @@ class UserShop {
              let oldMoney = parseInt(userMoney.innerHTML.split(" ")[1]);
              let oldPrice = parseInt(userHireWorkerTag.innerHTML.split(" ")[3]);
              
-             //Used For Debugging
-             console.log("MONEY" + oldMoney); 
-             console.log("PRICE " + oldPrice);
- 
              const userHasMoney = (oldMoney >= oldPrice) ? true : false;
              console.log(userHasMoney)
              if(userHasMoney) {
@@ -291,6 +290,89 @@ class UserShop {
                 userHireWorkerTag.innerHTML = firstPartMsg + newPrice;
              }
         }
+        /**
+         * Checking if the user wants to Buy Ammo 
+         */
+        this.userBuyAmmo.onclick = function() {
+            /**First Check if the user Has the money for it  */
+            let oldMoney = parseInt(userMoney.innerHTML.split(" ")[1]);
+            let oldPrice = parseInt(userBuyAmmoTag.innerHTML.split(" ")[2]);
+
+            const userHasMoney = (oldMoney >= oldPrice) ? true : false;
+            console.log(userHasMoney)
+            if(userHasMoney) {
+                //Updating the User Ammo Count to include an extra one 
+                let oldAmmoCount = parseInt(user.userAmmo.innerHTML.split(" ")[2]); 
+                let newAmmoCount = oldAmmoCount + 1; 
+                //Getting the First Part 
+                let userAmmoLst = user.userAmmo.innerHTML.split(" ");
+                let userAmmoFirstPart = "";
+                for(let i = 0; i < userAmmoLst.length - 1; i++)
+                {
+                    userAmmoFirstPart += userAmmoLst[i] + " ";
+                }
+                //Updating the User Ammo Tag With the Newly Added Bullet 
+                user.userAmmo.innerHTML = userAmmoFirstPart + newAmmoCount;
+
+                 //Updating the user money Tag And the Price of the Upgrade 
+                 let newMoney = oldMoney - oldPrice;
+                 user.userMoney.innerHTML = userMoney.innerHTML.split(" ")[0] + " " + newMoney; 
+ 
+                 let newPrice = oldPrice * USER_PRICE_FACTOR; 
+                 let tempLst = userBuyAmmoTag.innerHTML.split(" ");
+                 let firstPartMsg = "";
+                 //Don't want the last element
+                 for(let i = 0; i < tempLst.length - 1; i++) {
+                     firstPartMsg += tempLst[i] + " "; 
+                 }
+                 userBuyAmmoTag.innerHTML = firstPartMsg + newPrice;
+
+            } 
+        }
+        /**
+         * Checking if the user wants to buy a Pistol
+         */
+        this.userBuyPistol.onclick = function() {
+            /**First Check if the user Has the money for it  */
+            let oldMoney = parseInt(userMoney.innerHTML.split(" ")[1]);
+            let oldPrice = parseInt(userBuyPistolTag.innerHTML.split(" ")[2]);
+            
+            //Used For Debugging
+            console.log("MONEY" + oldMoney); 
+            console.log("PRICE " + oldPrice);
+
+            const userHasMoney = (oldMoney >= oldPrice) ? true : false;
+            console.log(userHasMoney)
+            if(userHasMoney) {
+
+                //Updating the User Pistol Count to include an extra one 
+                let oldPistolCount = parseInt(user.userPistol.innerHTML.split(" ")[2]); 
+                let newPistolCount = oldPistolCount + 1; 
+                //Getting the First Part 
+                let userPistolLst = user.userPistol.innerHTML.split(" ");
+                let userPistolFirstPart = "";
+                for(let i = 0; i < userPistolLst.length - 1; i++)
+                {
+                    userPistolFirstPart += userPistolLst[i] + " ";
+                }
+                //Updating the User Pistol Tag With the Newly Added Pistol
+                user.userPistol.innerHTML = userPistolFirstPart + newPistolCount;
+
+                //Updating the user money Tag And the Price of the Upgrade 
+                let newMoney = oldMoney - oldPrice;
+                user.userMoney.innerHTML = userMoney.innerHTML.split(" ")[0] + " " + newMoney; 
+
+                let newPrice = oldPrice * USER_WEAPON_FACTOR; 
+                let tempLst = userBuyPistolTag.innerHTML.split(" ");
+                let firstPartMsg = "";
+                //Don't want the last element
+                for(let i = 0; i < tempLst.length - 1; i++) {
+                    firstPartMsg += tempLst[i] + " "; 
+                }
+                userBuyPistolTag.innerHTML = firstPartMsg + newPrice;
+
+            }
+        }
     }
 
 }
@@ -308,14 +390,19 @@ class User {
         // this.userNumTime = parseInt(this.userTime.innerHTML.split(" ")[this.userTime.innerHTML.split(" ").length -1]);//Represents the UserTime as an Integer
         this.userMoney = document.getElementById("userMoney");
         this.userInventory = document.getElementById("userInventoryList"); //Will hold the ammo, guns, etc ... 
+        //Getting the User Ammo
+        this.userAmmo = document.getElementById("userAmmo");
+        //Getting the User Pistol Tag
+        this.userPistol = document.getElementById("userPistol");
         
         this.userMultiplier = document.getElementById("userMultiplier"); //Initially Multiplying by one 
+
+
 
         //Defining the Actual Javascript Representations Of the Html elements 
         this.userNumTime = parseInt(this.userTime.innerHTML.split(" ")[1]);
         this.userNumMoney = parseInt(this.userMoney.innerHTML.split(" ")[1]);
 
-        this.userInventory = []; //Initially Its an empty list (Will Set this up later)
     }
     /**
      * Updates all the components a user has 
