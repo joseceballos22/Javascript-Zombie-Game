@@ -40,11 +40,13 @@
 
 /**
  * Things Left To Do For Clicker Game:
- * - Make it so that when the player clicks Earn Money Money Goes UP as Well 
- * - Add A Button Shop which will initially Sell 
+ * - Add A Button Shop which will initially have 
  * - (Get another Job ) And this will exponentially grow Which will double money earned and double time lost 
+ * - (Hire A Worker) And this will automatically click for you 
  * - (Buy Ammo ) Which will Exponentially Increase As the Player buys more ammo (Supply and demand) and be stored in the players inventory 
  * - (Buy Pistol) Which can only be bought once and then just ammo for it 
+ * 
+ * - Fix the initial prices of the game 
  * 
  * - FUTURE THINGS
  * - Buy Lives 
