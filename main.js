@@ -23,8 +23,6 @@
  * - These things in the inventory will be taken to the file boss round 
  * 
  * 
- * 
- * 
  * - Once your time runs out It has begun (The Zombie Survival Game) (watch video on how to build this )
  * - you then switch to a zombie surivial game where all you have is the stuff you saved and your goal is to surive the wave of 100 zombies 
  * And if you do you win other wise you failed 
@@ -32,7 +30,7 @@
  * 
  * Future Things To Add: 
  * - Fix the initial prices of the game 
- * - Add sound 
+ * - Add sound (priortize this)
  * - Replace All Classes into separate files and just export them (And have a Main Game Class which will do work main function doing)
  * - Add more guns to the clicker game and the zombie game 
  * - FUTURE SHOP THINGS 
@@ -47,17 +45,10 @@
 
 /**
  * Things Left To Do For Clicker Game:
- * - Add A Button Shop which will initially have 
- * - (Get another Job ) And this will exponentially grow Which will double money earned and double time lost 
- * - (Hire A Worker) And this will automatically click for you 
- * - (Buy Ammo ) Which will Exponentially Increase As the Player buys more ammo (Supply and demand) and be stored in the players inventory 
- * - (Buy Pistol) Which can only be bought once and then just ammo for it 
  * 
- * 
- * - Hook Up the Buttons them Up 
- * 
- * 
- * - Then Make it so that when the time runs out the zombie game will start and the player will join with his inventory stuff 
+ * - Then Make it so that when the time runs out 
+ * A button will appear which will close the Clicker game (It Has Begun ) 
+ * Open the zombie game with the players inventory stuff 
  * 
  * Things Left To DO For the Zombie Game: 
  * - (DO THE ENTIRE GAME WATCH VIDEO ON HOW TO DO THIS ) 
@@ -66,8 +57,8 @@
 /**
  * Represents the Economy Of the Clicker Game
  */
-const USER_MULTIPLIER_FACTOR = 2; //User Will get twice as strong 
-const USER_PRICE_FACTOR = 3; //While prices get three times as strong 
+const USER_MULTIPLIER_FACTOR = 200; //User Will get twice as strong 
+const USER_PRICE_FACTOR = 2; //While prices get Twice As Strong 
 
 const USER_WEAPON_FACTOR = 10; //Makes it so that they can only Buy 1 Of each 
 
@@ -87,34 +78,67 @@ class Zombie {
 
     }
     
-    /**
-     * This is like the Draw function in the sense that it refreshs the components after they have been updated 
-     */
-    refreshComponents() {
-
-    }
 }
 
 /**
- * Represents the Humans
+ * Represents the Survivor
  */
-class Human {
+class Survivor {
     constructor() {
+        /**Showing the Survivor Inventory */
+        document.getElementById("survivorInventory").style.display = "block";
 
+        /**Getting A Reference to the Survivor Inventory Stuff*/
+        this.survivorPistol = document.getElementById("survivorPistol");
+        this.survivorAmmo = document.getElementById("survivorAmmo");
+
+        /**Updating Survivor Inventory with Clicker Game Inventory */
+        let pistolAmount = parseInt(document.getElementById("userPistol").innerHTML.split(" ")[2]);
+        this.survivorPistol.innerHTML = this.survivorPistol.innerHTML.split(" ")[0] + " " + pistolAmount;
+
+        let ammoAmount = parseInt(document.getElementById("userAmmo").innerHTML.split(" ")[2]);
+        this.survivorAmmo.innerHTML = this.survivorAmmo.innerHTML.split(" ")[0] + " " + ammoAmount;
     }
 
     /**
-     * Updates all the components a human has 
+     * Updates all the components a Survivor has 
      */
     updateComponents() {
 
     }
-    
-    /**
-     * This is like the Draw function in the sense that it refreshs the components after they have been updated 
-     */
-    refreshComponents() {
 
+}
+
+/**
+ * Represents the Zombie Game 
+ */
+class ZombieGame {
+    constructor() {
+        //Hiding all the Clicker Game Stuff 
+        document.getElementById("battleBackground").style.display = "block"; //Showing the Battle background
+        document.getElementsByTagName("body")[0].style.backgroundImage = "url(images/whiteBackground.png)"; //Just going to use a white background
+        document.getElementById("title").style.display = "none";
+
+        /**Showing The Survivor Title */
+        document.getElementById("survivorTitle").style.display = "block"
+
+        //Creating a Survivor
+        this.survivor = new Survivor(); 
+
+
+    }
+    /**
+     * Starts the Zombie Game
+     */
+    start() {
+
+        this.updateComponents(); //Updating all the components in the zombie game 
+    }
+    /**
+     * Updates all the components of the Zombie Game 
+     */
+    updateComponents() {
+        this.survivor.updateComponents();
     }
 }
 
@@ -169,6 +193,12 @@ class Clicker {
                 userTime.innerHTML = userTime.innerHTML.split(" ")[0] + " " + 0;
             }
         };
+    }
+    /**
+     * Hides all the Html elements from the screen
+     */
+    terminate() {
+        this.clicker.style.display = "none";
     }
     
 }
@@ -375,6 +405,13 @@ class UserShop {
         }
     }
 
+    /**
+     * Hides all the html elements from the screen 
+     */
+    terminate() {
+        document.getElementById("userShop").style.display = "none";
+    }
+
 }
 
 /**
@@ -397,8 +434,6 @@ class User {
         
         this.userMultiplier = document.getElementById("userMultiplier"); //Initially Multiplying by one 
 
-
-
         //Defining the Actual Javascript Representations Of the Html elements 
         this.userNumTime = parseInt(this.userTime.innerHTML.split(" ")[1]);
         this.userNumMoney = parseInt(this.userMoney.innerHTML.split(" ")[1]);
@@ -411,6 +446,13 @@ class User {
         // //Constantly Updates the UserTime With the Latest Time 
         // this.userTime.innerHTML = this.userTime.innerHTML.split(" ")[0] + " " + this.userNumTime;
         // this.userMoney.innerHTML = this.userMoney.innerHTML.split(" ")[0] + " " + this.userNumMoney;
+    }
+    /**
+     * Hides All the Html Elements From the screen 
+     */
+    terminate() {
+        this.userTime.style.display = "none";
+        this.userMoney.style.display = "none";
     }
 }
 
@@ -429,6 +471,12 @@ class ClickerGame {
         //Creating a User 
         this.user = new User(); 
 
+        //Is Game Over 
+        this.isClickerGameOver = document.getElementById("isClickerGameOver"); //Initially False
+
+        //Switch Game Button 
+        this.switchGameButton = document.getElementById("switchGameButton");
+
     }
     /**
      * Starts the Game 
@@ -441,6 +489,8 @@ class ClickerGame {
         document.getElementById("title").innerHTML = "Happy Land";
 
         const userTime = this.user.userTime;
+        const isClickerGameOverTag = this.isClickerGameOver;
+        const switchGameButtonTag = this.switchGameButton;
         /**Automatically Decrease the time by one second */
         setInterval(function() {
 
@@ -456,10 +506,28 @@ class ClickerGame {
             //Ensures no Negative Time 
             if(getCurrentTime <= 0) {
                 userTime.innerHTML = userTime.innerHTML.split(" ")[0] + " " + 0;
+                isClickerGameOverTag.innerHTML = "true"; //Game Is Over
             }
 
 
         }, 1000); 
+
+        /**
+         * Checks Every Second if the Clicker Game Has Finished 
+         * IF So A button will appear 
+         * IF The User Presses That Button it Will Hide All The Clicker Stuff 
+         * And Start the Zombie Game 
+         * 
+         */
+        setInterval(function() {
+            //The Clicker Game Is Over
+            if(isClickerGameOverTag.innerHTML == "true") {
+                switchGameButtonTag.style.display = "block"; //Making the Button Visible 
+            }
+        });
+
+
+
 
         this.updateComponents(); //Calling the Update Function 
     }
@@ -479,6 +547,17 @@ class ClickerGame {
         this.user.updateComponents(); 
     }
 
+    /**
+     * Hides all the clicker Game Html Elements From the Screen
+     */
+     terminateGame() {
+        this.clicker.terminate();
+        this.userShop.terminate();
+        this.user.terminate();
+        document.getElementsByTagName("body")[0].style.backgroundImage = "url(images/whiteBackground.png)"; //Just going to use a white background
+        document.getElementById("title").style.display = "none"; //Disabling Title 
+        this.switchGameButton.style.display = "none"; //Disabling Button 
+     }
 }
 
 /**
@@ -539,15 +618,27 @@ function main() {
 
     //     //Place Game Code In Here 
     //     //First thing Doing the clicker Game 
-    //     clickerGame = new ClickerGame(); 
+    //     const clickerGame = new ClickerGame(); 
     //     clickerGame.start(); //Starting the Clicker Game 
 
     //     //Second Thing Doing the Zombie Game 
 
+    //     //This Button is Only Visible Once the Clicker Game Is Over 
+    //     const switchGameButton = document.getElementById("switchGameButton");
+    //     switchGameButton.onclick = function() {
+    //     //Hide all the clickerGame Html Elements
+    //     clickerGame.terminateGame(); //Hides All the Elements 
+        
+    //     /**Creating and Starting the Zombie Game */
+
+    // };
+
     // }, 15000); //Will Start the Game After the Main Menu Screen Is Done 
 
-    clickerGame = new ClickerGame();
-    clickerGame.start(); 
+    const zombieGame = new ZombieGame();
+
+    zombieGame.start(); 
+    
 
 }
 main(); 

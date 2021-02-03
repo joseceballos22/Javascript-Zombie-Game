@@ -9,10 +9,10 @@
 </head>
 <body>
     
+
     <h1 class="title" id="title">If You're Reading This It's Too Late</h1>
     
     <!--Every Html Element Defined Should by default have a display to none after this comment-->
-
 
     <!--Used to Show the Main Menu Introduction Into the game -->
     <div class="main_menu_text">
@@ -46,7 +46,7 @@
             <button class="user_shop_item glow-on-hover" id="hireWorker">Hire A Worker: 500</button> <!--Automatically Clicks For you using your multiplyer-->
         </div>
         <div> 
-            <button class="user_shop_item glow-on-hover" id="buyAmmo">Buy Ammo: 10</button> <!--Doubles in Price as the per ammo (Need a Pistol Before Can Purchase)-->
+            <button class="user_shop_item glow-on-hover" id="buyAmmo">Buy Ammo: 2</button> <!--Doubles in Price as the per ammo (Need a Pistol Before Can Purchase)-->
         </div>
         <div>
             <button class="user_shop_item glow-on-hover" id="buyPistol">Buy Pistol: 10000</button> <!--It's only a one time purchase-->
@@ -54,6 +54,38 @@
 
     </div>
 
+    <!--Used to Determine if the Clicker Game Is Over-->
+    <div id="isClickerGameOver" style="display: none;">false</div>
+
+    <!-- This Button Will Switch The Clicker Game To The Zombie Game-->
+    <button class="switch_game_button glow-on-hover" id="switchGameButton" style="display: none;">Go Outside</button>
+
+    <!-- ------------Html Elements For Zombie Game ----------------- -->
+
+    <!-- Used to Define Battle Background For the Zombies -->
+    <img src="images/battleBackground.png" class="battle_background" id="battleBackground" style="display: none;"> 
+
+    <div class="survivor_title" id="survivorTitle" style="display: none;">Survival Of The Fittest</div>
+
+    <div class="survivor_inventory" id="survivorInventory" style="display: none;">
+        <!--Will get this infor from userPistol and userAmmo-->
+        <div id="survivorPistol">Pistol: 0</div>
+        <div id="survivorAmmo">Ammo: 0</div>
+    </div>
+
+    <!-- Instructions On How to Play the Zombie Game -->
+    <div class="zombie_game_instructions">
+        <p>
+            Objective: Kill off all remaining zombies and save the world. Using only your inventory items. 
+        </p>
+        <p>Did you prepare ???</p>
+        <p>
+            Controls: 
+        </p>        
+        <p class="tab">W</p>
+        <p class="tab">ASD</p>
+        <p class="tab">[Space] To Shoot</p>
+    </div>
 
     <!--Linking Javascript -->
     <script src="main.js"></script>
