@@ -57,7 +57,7 @@
 /**
  * Represents the Economy Of the Clicker Game
  */
-const USER_MULTIPLIER_FACTOR = 200; //User Will get twice as strong 
+const USER_MULTIPLIER_FACTOR = 2; //User Will get twice as strong 
 const USER_PRICE_FACTOR = 2; //While prices get Twice As Strong 
 
 const USER_WEAPON_FACTOR = 10; //Makes it so that they can only Buy 1 Of each 
@@ -122,6 +122,8 @@ class ZombieGame {
         /**Showing The Survivor Title */
         document.getElementById("survivorTitle").style.display = "block"
 
+        /** Showing Instructions  */
+        document.getElementById("zombieGameInstructions").style.display = "block";
         //Creating a Survivor
         this.survivor = new Survivor(); 
 
@@ -610,34 +612,36 @@ function hideText(lstOfElementsIds) {
  */
 function main() {
 
-    // /**
-    //  * ------------- UnComment Once You Finished the Game -------------
-    //  */
-    // showMainMenu(); //First it will show the main menu then go to the game
-    // setTimeout(function() {
+    /**
+     * ------------- UnComment Once You Finished the Game -------------
+     */
+    showMainMenu(); //First it will show the main menu then go to the game
+    setTimeout(function() {
 
-    //     //Place Game Code In Here 
-    //     //First thing Doing the clicker Game 
-    //     const clickerGame = new ClickerGame(); 
-    //     clickerGame.start(); //Starting the Clicker Game 
+        //Place Game Code In Here 
+        //First thing Doing the clicker Game 
+        const clickerGame = new ClickerGame(); 
+        clickerGame.start(); //Starting the Clicker Game 
 
-    //     //Second Thing Doing the Zombie Game 
+        //Second Thing Doing the Zombie Game 
 
-    //     //This Button is Only Visible Once the Clicker Game Is Over 
-    //     const switchGameButton = document.getElementById("switchGameButton");
-    //     switchGameButton.onclick = function() {
-    //     //Hide all the clickerGame Html Elements
-    //     clickerGame.terminateGame(); //Hides All the Elements 
+        //This Button is Only Visible Once the Clicker Game Is Over 
+        const switchGameButton = document.getElementById("switchGameButton");
+        switchGameButton.onclick = function() {
+        //Hide all the clickerGame Html Elements
+        clickerGame.terminateGame(); //Hides All the Elements 
         
-    //     /**Creating and Starting the Zombie Game */
+        /**Creating and Starting the Zombie Game */
+        const zombieGame = new ZombieGame();
+        zombieGame.start(); 
+        
+    };
 
-    // };
+    }, 15000); //Will Start the Game After the Main Menu Screen Is Done 
 
-    // }, 15000); //Will Start the Game After the Main Menu Screen Is Done 
+    // const zombieGame = new ZombieGame();
 
-    const zombieGame = new ZombieGame();
-
-    zombieGame.start(); 
+    // zombieGame.start(); 
     
 
 }
