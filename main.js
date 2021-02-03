@@ -455,6 +455,7 @@ class User {
     terminate() {
         this.userTime.style.display = "none";
         this.userMoney.style.display = "none";
+        document.getElementById("userInfo").style.display = "none";
     }
 }
 
