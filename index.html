@@ -63,7 +63,7 @@
     <!-- ------------Html Elements For Zombie Game ----------------- -->
 
     <!-- Used to Define Battle Background For the Zombies -->
-    <img src="images/battleBackground.png" class="battle_background" id="battleBackground" style="display: none;"> 
+    <img src="images/battleBackground.png" class="battle_background" id="battleBackground" style="display: none;" width="1200" height="800"> 
 
     <div class="survivor_title" id="survivorTitle" style="display: none;">Survival Of The Fittest</div>
 
@@ -75,10 +75,10 @@
 
     <!-- Instructions On How to Play the Zombie Game -->
     <div class="zombie_game_instructions" id="zombieGameInstructions" style="display: none;">
-        <p>
+        <!-- <p>
             Objective: Kill off all remaining zombies and save the world. Using only your inventory items. 
-        </p>
-        <p>Did you prepare ???</p>
+        </p> -->
+        <p>Did You Prepare ???</p>
         <p>
             Controls: 
         </p>        
@@ -86,6 +86,12 @@
         <p class="tab">ASD</p>
         <p class="tab">[Space] To Shoot</p>
     </div>
+
+    <!--Defining the canvas Element for the zombie game -->
+    <canvas class="zombie_game_canvas" id="zombieGameCanvas" style="display: none;" width="1200" height="800"></canvas>
+
+    <!--Survivor Image -->
+    <img src="images/survivor.png" id="survivorImage" style="display: none;">
 
     <!--Linking Javascript -->
     <script src="main.js"></script>

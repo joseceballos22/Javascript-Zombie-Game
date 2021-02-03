@@ -98,9 +98,17 @@ body {
 /* Defines the battle Background For The Zombie Game */
 .battle_background {
     position: absolute;
-    top: 0px;
+    top: 50px;
     left: 300px;
 }
+/* Defines the Canvas Element used for the zombie game*/
+.zombie_game_canvas {
+    position: absolute;
+    top: 50px;
+    left: 300px;
+}
+
+
 /* Defines the Title For the Zombie Game */
 .survivor_title {
     position: absolute;
