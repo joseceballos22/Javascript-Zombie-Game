@@ -338,6 +338,9 @@ class UserShop {
         this.userHireWorker = document.getElementById("hireWorker");
         this.userBuyAmmo = document.getElementById("buyAmmo");
         this.userBuyPistol = document.getElementById("buyPistol");
+        this.userBuyPlayerSpeed = document.getElementById("buyPlayerSpeed");
+        this.buyBulletSpeed = document.getElementById("buyBulletSpeed");
+        this.buyBulletDamage = document.getElementById("buyBulletDamage");
     }
 
     /**
@@ -357,7 +360,11 @@ class UserShop {
         const userBuyAmmoTag = this.userBuyAmmo;
         const userBuyPistolTag = this.userBuyPistol;
 
-        /**Checking If User Wants to Get another Job */
+        const userBuyPlayerSpeedTag = this.userBuyPlayerSpeed;
+        const buyBulletSpeedTag = this.buyBulletSpeed;
+        const buyBulletDamageTag = this.buyBulletDamage;
+
+        /**Checking If User Wants to Double the Money Multipler */
         this.userGetAnotherJob.onclick = function() {
             /**First Check if the user Has the money for it  */
             let oldMoney = parseInt(userMoney.innerHTML.split(" ")[1]);
@@ -488,10 +495,6 @@ class UserShop {
             /**First Check if the user Has the money for it  */
             let oldMoney = parseInt(userMoney.innerHTML.split(" ")[1]);
             let oldPrice = parseInt(userBuyPistolTag.innerHTML.split(" ")[2]);
-            
-            //Used For Debugging
-            console.log("MONEY" + oldMoney); 
-            console.log("PRICE " + oldPrice);
 
             const userHasMoney = (oldMoney >= oldPrice) ? true : false;
             console.log(userHasMoney)
@@ -525,6 +528,48 @@ class UserShop {
 
             }
         }
+        /** Checking if the user wants to buy Player Speed */
+        this.userBuyPlayerSpeed.onclick = function() {
+            /**First Check if the user Has the money for it  */
+            let oldMoney = parseInt(userMoney.innerHTML.split(" ")[1]);
+            let oldPrice = parseInt(userBuyPlayerSpeedTag.innerHTML.split(" ")[3]);
+            
+            //Used For Debugging
+            console.log("MONEY" + oldMoney); 
+            console.log("PRICE " + oldPrice);
+
+            const userHasMoney = (oldMoney >= oldPrice) ? true : false;
+            console.log(userHasMoney)
+            if(userHasMoney) {
+                //Updating the User Pistol Count to include an extra one 
+                let oldCount = parseInt(user.userSpeed.innerHTML.split(" ")[2]); 
+                let newCount = oldCount + 1; 
+                //Getting the First Part 
+                let lst = user.userSpeed.innerHTML.split(" ");
+                let firstPart = "";
+                for(let i = 0; i < lst.length - 1; i++)
+                {
+                    firstPart += lst[i] + " ";
+                }
+                //Updating the User Pistol Tag With the Newly Added Pistol
+                user.userSpeed.innerHTML = firstPart + newCount;
+
+
+                //Updating the user money Tag And the Price of the Upgrade 
+                let newMoney = oldMoney - oldPrice;
+                user.userMoney.innerHTML = userMoney.innerHTML.split(" ")[0] + " " + newMoney; 
+
+                let newPrice = oldPrice * USER_PRICE_FACTOR; 
+                let tempLst = userBuyPlayerSpeedTag.innerHTML.split(" ");
+                let firstPartMsg = "";
+                //Don't want the last element
+                for(let i = 0; i < tempLst.length - 1; i++) {
+                    firstPartMsg += tempLst[i] + " "; 
+                }
+                userBuyPlayerSpeedTag.innerHTML = firstPartMsg + newPrice;
+
+            }
+        };
     }
 
     /**
@@ -532,6 +577,12 @@ class UserShop {
      */
     terminate() {
         document.getElementById("userShop").style.display = "none";
+    }
+    /**
+     * Re enables all html elements from the screen
+     */
+    enable() {
+        document.getElementById("userShop").style.display = "block";
     }
 
 }
@@ -553,6 +604,15 @@ class User {
         this.userAmmo = document.getElementById("userAmmo");
         //Getting the User Pistol Tag
         this.userPistol = document.getElementById("userPistol");
+
+        //Getting the User Speed 
+        this.userSpeed = document.getElementById("userSpeed");
+        
+        //Getting the User Bullet Speed
+        this.userBulletSpeed = document.getElementById("userBulletSpeed");
+
+        //Getting the User Bullet Damage 
+        this.userBulletDamage = document.getElementById("userBulletDamage");
         
         this.userMultiplier = document.getElementById("userMultiplier"); //Initially Multiplying by one 
 
@@ -576,6 +636,14 @@ class User {
         this.userTime.style.display = "none";
         this.userMoney.style.display = "none";
         document.getElementById("userInfo").style.display = "none";
+    }
+    /**
+     * Re Enables the Html Elements 
+     */
+    enable() {
+        this.userTime.style.display = "block";
+        this.userMoney.style.display = "block";
+        document.getElementById("userInfo").style.display = "block";
     }
 }
 
@@ -673,13 +741,25 @@ class ClickerGame {
     /**
      * Hides all the clicker Game Html Elements From the Screen
      */
-     terminateGame() {
+     disableGame() {
         this.clicker.terminate();
         this.userShop.terminate();
         this.user.terminate();
         document.getElementsByTagName("body")[0].style.backgroundImage = "url(images/whiteBackground.png)"; //Just going to use a white background
         document.getElementById("title").style.display = "none"; //Disabling Title 
         this.switchGameButton.style.display = "none"; //Disabling Button 
+     }
+
+     /**
+      * ReEnables Game
+      */
+     enableGame() {
+        this.clicker.enable();
+        this.userShop.enable(); 
+        this.user.enable();
+        document.getElementsByTagName("body")[0].style.backgroundImage = "url(images/happyBackground.png)"; //Just going to use a white background
+        document.getElementById("title").style.display = "block"; //Disabling Title 
+        this.switchGameButton.style.display = "block"; //Disabling Button 
      }
 }
 
@@ -692,6 +772,11 @@ function showMainMenu() {
     let main_menu_text_2 = document.getElementById("main_menu_2");
     let main_menu_text_3 = document.getElementById("main_menu_3");
     let main_menu_text_4 = document.getElementById("main_menu_4");
+
+    //Adding Audio 
+    let introMusic = new Audio('sounds/introMusic.mp3');
+
+    introMusic.play();
 
     /**Intially Hide All the Elements  */
     hideText(["main_menu_1","main_menu_2","main_menu_3","main_menu_4"]);
@@ -733,9 +818,9 @@ function hideText(lstOfElementsIds) {
  */
 function main() {
 
-    // /**
-    //  * ------------- UnComment Once You Finished the Game -------------
-    //  */
+    /**
+     * ------------- Finished Version (Uncomment Once Done) -------------
+     */
     // showMainMenu(); //First it will show the main menu then go to the game
     // setTimeout(function() {
 
@@ -750,23 +835,41 @@ function main() {
     //     const switchGameButton = document.getElementById("switchGameButton");
     //     switchGameButton.onclick = function() {
     //     //Hide all the clickerGame Html Elements
-    //     clickerGame.terminateGame(); //Hides All the Elements 
+    //     clickerGame.disableGame(); //Hides All the Elements 
         
     //     /**Creating and Starting the Zombie Game */
     //     const zombieGame = new ZombieGame();
-    //     zombieGame.start(); 
+
+    //     //Updating all the components of the zombie Game And Drawing Them 
+    //     setInterval(function() {
+    //         zombieGame.start();
+    //     }, 33);// 33 milliseconds = 30 frames per sec
         
     // };
 
     // }, 15000); //Will Start the Game After the Main Menu Screen Is Done 
 
-    const zombieGame = new ZombieGame();
+    //--------------- Used For Debugging -------------
 
-    //Updating all the components of the zombie Game And Drawing Them 
-    setInterval(function() {
-        zombieGame.start();
-    }, 33);// 33 milliseconds = 30 frames per sec
-    
+    const clickerGame = new ClickerGame(); 
+    clickerGame.start(); //Starting the Clicker Game 
+
+    //Zombie Game Stuff 
+
+    //This Button is Only Visible Once the Clicker Game Is Over 
+    const switchGameButton = document.getElementById("switchGameButton");
+    switchGameButton.onclick = function() {
+        //Hide all the clickerGame Html Elements
+        clickerGame.disableGame(); //Hides All the Elements 
+        
+        /**Creating and Starting the Zombie Game */
+        const zombieGame = new ZombieGame();
+
+        //Updating all the components of the zombie Game And Drawing Them 
+        setInterval(function() {
+            zombieGame.start();
+        }, 33);// 33 milliseconds = 30 frames per sec
+    };  
 
 }
 main(); 
