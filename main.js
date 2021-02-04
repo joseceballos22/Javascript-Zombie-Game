@@ -30,7 +30,7 @@
  * 
  * Future Things To Add: 
  * - Fix the initial prices of the game 
- * - Add sound (priortize this)
+ * - Add sound (priortize this) (music)
  * - Replace All Classes into separate files and just export them (And have a Main Game Class which will do work main function doing)
  * - Add more guns to the clicker game and the zombie game 
  * - FUTURE SHOP THINGS 
@@ -41,7 +41,7 @@
  *      - Buy Submachine gun 
  * - Add Zombie waves 
  * - See how long they can survive 
- * - Fix hardcoded array usuage throughout the program (Make it so that it depends on length )
+ * 
  */
 
 /**
@@ -50,7 +50,6 @@
  * - The entire game will be done on a canvas element 
  * 
  * Things Left for the overall game 
- * - Add Music To Really Make the Game Better it will add a lot to it 
  * - Read the Introduction to the player (record it and use the sound in it )
  * - Add Inviduial Multiplier for bullet , workers, get job, guns (In Clicker Game to give it a better strategy feel)
  * - Submit Game to itch io 
@@ -60,7 +59,7 @@
  * Represents the Economy Of the Clicker Game
  * 
  */
-const USER_MULTIPLIER_FACTOR = 200; //User Will get twice as strong 
+const USER_MULTIPLIER_FACTOR = 2; //User Will get twice as strong 
 const USER_PRICE_FACTOR = 2; //While prices get Twice As Strong 
 
 const USER_WEAPON_FACTOR = 10; //Makes it so that they can only Buy 1 Of each 
@@ -107,6 +106,14 @@ const screenH = 800;
  */
 class ZombieGame {
     constructor() {
+        //Creating a Survivor
+        this.survivor = new Survivor(); 
+    }
+
+    /**
+     * Enables the Components of the Game 
+     */
+    enableComponents() {
         //Hiding all the Clicker Game Stuff 
         document.getElementById("battleBackground").style.display = "block"; //Showing the Battle background
         document.getElementsByTagName("body")[0].style.backgroundImage = "url(images/whiteBackground.png)"; //Just going to use a white background
@@ -124,9 +131,34 @@ class ZombieGame {
         /** Showing the Canvas On the screen */
         document.getElementById("zombieGameCanvas").style.display = "block";
 
-        //Creating a Survivor
-        this.survivor = new Survivor(); 
+        /**Enabling the Survivor Components */
+        this.survivor.enableComponents(); 
     }
+    /**
+     * Disables the Components of the Game 
+     */
+    disableComponenets() {
+        //Hiding all the Zombie Game Stuff
+        document.getElementById("battleBackground").style.display = "none"; 
+        // document.getElementsByTagName("body")[0].style.backgroundImage = "url(images/happyBackground.png)"; //Switching to the clicker Background
+        // document.getElementById("title").style.display = "block"; //Enabling the Title 
+
+        //Disabling the Go Home Button 
+        document.getElementById("switchToClickerGame").style.display = "none";
+
+        /**Disabling The Survivor Title */
+        document.getElementById("survivorTitle").style.display = "none"
+
+        /** Hiding Instructions  */
+        document.getElementById("zombieGameInstructions").style.display = "none";
+
+        /** Hiding the Canvas On the screen */
+        document.getElementById("zombieGameCanvas").style.display = "none";
+
+        /**Hiding the Survivor Components */
+        this.survivor.disableComponenets(); 
+    }
+
     /**
      * Starts the Zombie Game
      */
@@ -177,8 +209,6 @@ class Zombie {
  */
 class Survivor {
     constructor() {
-        /**Showing the Survivor Inventory */
-        document.getElementById("survivorInventory").style.display = "block";
 
         /**Getting A Reference to the Survivor Inventory Stuff*/
         this.survivorPistol = document.getElementById("survivorPistol");
@@ -187,25 +217,11 @@ class Survivor {
         this.bulletSpeed = document.getElementById("bulletSpeed");
         this.bulletDamage = document.getElementById("bulletDamage");
 
-        /**Updating Survivor Pistol with Clicker Game Inventory */
-        let pistolAmount = parseInt(document.getElementById("userPistol").innerHTML.split(" ")[2]);
-        this.survivorPistol.innerHTML = this.survivorPistol.innerHTML.split(" ")[0] + " " + pistolAmount;
-        /**Updating Survivor Ammo With Clicker Game Inventory */
-        let ammoAmount = parseInt(document.getElementById("userAmmo").innerHTML.split(" ")[2]);
-        this.survivorAmmo.innerHTML = this.survivorAmmo.innerHTML.split(" ")[0] + " " + ammoAmount;
-        
-        /**Updating Survivor Speed With Clicker Game Inventory */
-        let survivorSpeed = parseInt(document.getElementById("userSpeed").innerHTML.split(" ")[2]);
-        this.survivorSpeed.innerHTML = this.survivorSpeed.innerHTML.split(" ")[0] + " " + survivorSpeed;
+        /**Updating Survivor Inventory Elements With Clicker Stuff */
+        this.updateInventoryElements();
 
-        /**Updating Bullet Speed With Clicker Game Inventory */
-        let bulletSpeed = parseInt(document.getElementById("userBulletSpeed").innerHTML.split(" ")[3]);
-        this.bulletSpeed.innerHTML = this.bulletSpeed.innerHTML.split(" ")[0] + " " + bulletSpeed;
-
-        /**Updating Bullet Damage With Clicker Game Inventory */
-        let bulletDamage = parseInt(document.getElementById("userBulletDamage").innerHTML.split(" ")[3]);
-        this.bulletDamage.innerHTML = this.bulletDamage.innerHTML.split(" ")[0] + " " + bulletDamage;
-
+        //Updating the Survivors Inventory Nums With the latest things from clicker game 
+        this.updateInventoryNums(); 
 
         /**Getting the Survivor Image  */
         this.survivorImage = document.getElementById("survivorImage");
@@ -215,17 +231,24 @@ class Survivor {
         this.posY = 400;
         this.width = 100; 
         this.height = 100;
-
-        /**
-         * Updates User Inventory With Clicker Game Stuff
-         */
-        this.userHasPistol = parseInt(this.survivorPistol.innerHTML.split(" ")[1]) > 0 ? true : false; //Determines if the user Has A Pistol Or Not
-        console.log(this.userHasPistol);
-        this.ammo = parseInt(this.survivorAmmo.innerHTML.split(" ")[1]);
-        this.speed = 5 + parseInt(this.survivorSpeed.innerHTML.split(" ")[1]);  
-        this.bulletSpeedNum = 1 + parseInt(this.bulletSpeed.innerHTML.split(" ")[1]); 
-        this.bulletDamageNum = 1 + parseInt(this.bulletDamage.innerHTML.split(" ")[1]);
     }
+
+    /**
+     * Enables the Componenets of the Survivor
+     */
+    enableComponents() {
+        /**Showing the Survivor Inventory */
+        document.getElementById("survivorInventory").style.display = "block";
+    }
+
+    /**
+     * Disables The Components of the Survivor
+     */
+    disableComponenets() {
+        /**Hiding the Survivor Inventory */
+        document.getElementById("survivorInventory").style.display = "none";
+    }
+
 
     /**
      * Updates all the components a Survivor has 
@@ -236,15 +259,11 @@ class Survivor {
         // console.log("Player Y Pos: " + this.posY);
         this._checkBoundaries(); //Ensures we are within the border
         
-        /**
-         * Updates User Inventory With Clicker Game Stuff
-         */
-        this.userHasPistol = parseInt(this.survivorPistol.innerHTML.split(" ")[1]) > 0 ? true : false; //Determines if the user Has A Pistol Or Not
-        console.log(this.userHasPistol);
-        this.ammo = parseInt(this.survivorAmmo.innerHTML.split(" ")[1]);
-        this.speed = 5 + parseInt(this.survivorSpeed.innerHTML.split(" ")[1]);  
-        this.bulletSpeedNum = 1 + parseInt(this.bulletSpeed.innerHTML.split(" ")[1]); 
-        this.bulletDamageNum = 1 + parseInt(this.bulletDamage.innerHTML.split(" ")[1]);
+        /**Updating Survivor Inventory Elements With Clicker Stuff */
+        this.updateInventoryElements();
+
+        //Updating the Survivors Inventory Nums With the latest things from clicker game 
+        this.updateInventoryNums(); 
 
     }
     /** Limits The player so that he can't go outside the border 
@@ -300,6 +319,45 @@ class Survivor {
     /** Draws the Survior On the screen */
     draw() {
         context.drawImage(this.survivorImage, this.posX,this.posY, this.width, this.height); //THIS DRAWS THE Survivor On the Screen 
+    }
+
+    
+    /**
+     * Updates Surivivor Html Elements with Clicker Game Stuff
+     */
+    updateInventoryElements() {
+        /**Updating Survivor Pistol with Clicker Game Inventory */
+        let pistolAmount = parseInt(document.getElementById("userPistol").innerHTML.split(" ")[2]);
+        this.survivorPistol.innerHTML = this.survivorPistol.innerHTML.split(" ")[0] + " " + pistolAmount;
+        /**Updating Survivor Ammo With Clicker Game Inventory */
+        let ammoAmount = parseInt(document.getElementById("userAmmo").innerHTML.split(" ")[2]);
+        this.survivorAmmo.innerHTML = this.survivorAmmo.innerHTML.split(" ")[0] + " " + ammoAmount;
+        
+        /**Updating Survivor Speed With Clicker Game Inventory */
+        let survivorSpeed = parseInt(document.getElementById("userSpeed").innerHTML.split(" ")[2]);
+        this.survivorSpeed.innerHTML = this.survivorSpeed.innerHTML.split(" ")[0] + " " + survivorSpeed;
+
+        /**Updating Bullet Speed With Clicker Game Inventory */
+        let bulletSpeed = parseInt(document.getElementById("userBulletSpeed").innerHTML.split(" ")[3]);
+        this.bulletSpeed.innerHTML = this.bulletSpeed.innerHTML.split(" ")[0] + " " + bulletSpeed;
+
+        /**Updating Bullet Damage With Clicker Game Inventory */
+        let bulletDamage = parseInt(document.getElementById("userBulletDamage").innerHTML.split(" ")[3]);
+        this.bulletDamage.innerHTML = this.bulletDamage.innerHTML.split(" ")[0] + " " + bulletDamage;
+    }
+
+    /**
+     * Updates Survivor Inventory Numswith Clicker Game Stuff
+     */
+    updateInventoryNums() {
+        /**
+         * Updates User Inventory With Clicker Game Stuff
+         */
+        this.userHasPistol = parseInt(this.survivorPistol.innerHTML.split(" ")[1]) > 0 ? true : false; //Determines if the user Has A Pistol Or Not
+        this.ammo = parseInt(this.survivorAmmo.innerHTML.split(" ")[1]);
+        this.speed = 5 + parseInt(this.survivorSpeed.innerHTML.split(" ")[1]);  
+        this.bulletSpeedNum = 1 + parseInt(this.bulletSpeed.innerHTML.split(" ")[1]); 
+        this.bulletDamageNum = 1 + parseInt(this.bulletDamage.innerHTML.split(" ")[1]);
     }
 }
 
@@ -364,10 +422,17 @@ class Clicker {
         };
     }
     /**
-     * Hides all the Html elements from the screen
+     * Hides all the Html elements of the clicker
      */
     terminate() {
         this.clicker.style.display = "none";
+    }
+
+    /**
+     * Enables all the Html elements of the clicker
+     */
+    enable() {
+        this.clicker.style.display = "block";
     }
     
 }
@@ -889,9 +954,9 @@ class ClickerGame {
         this.clicker.enable();
         this.userShop.enable(); 
         this.user.enable();
-        document.getElementsByTagName("body")[0].style.backgroundImage = "url(images/happyBackground.png)"; //Just going to use a white background
-        document.getElementById("title").style.display = "block"; //Disabling Title 
-        this.switchGameButton.style.display = "block"; //Disabling Button 
+        document.getElementsByTagName("body")[0].style.backgroundImage = "url(images/happyBackground.jpg)"; 
+        document.getElementById("title").style.display = "block"; //Enabling Title 
+        this.switchGameButton.style.display = "block"; //Enabling The Button So they Can Go Back and fourth
      }
 }
 
@@ -956,34 +1021,54 @@ function main() {
     // showMainMenu(); //First it will show the main menu then go to the game
     // setTimeout(function() {
 
-        //Place Game Code In Here 
-        //First thing Doing the clicker Game 
+        /**Creating the Clicker Game */
         const clickerGame = new ClickerGame(); 
-        clickerGame.start(); //Starting the Clicker Game 
 
-        //Second Thing Doing the Zombie Game 
-
-        //This Button is Only Visible Once the Clicker Game Is Over 
-        const switchGameButton = document.getElementById("switchGameButton");
-        switchGameButton.onclick = function() {
-        //Hide all the clickerGame Html Elements
-        clickerGame.disableGame(); //Hides All the Elements 
-        
         /**Creating and Starting the Zombie Game */
         const zombieGame = new ZombieGame();
 
-        //Updating all the components of the zombie Game And Drawing Them 
-        setInterval(function() {
-            zombieGame.start();
-        }, 33);// 33 milliseconds = 30 frames per sec
-        
-        /**Will Take the User To The Clicker Game */
+        /**Getting a Reference to the HTML Game Switching Buttons */
+        const switchGameButton = document.getElementById("switchGameButton");
         const goToClickerGameButton = document.getElementById("switchToClickerGame");
-        goToClickerGameButton.onclick = function() {
+
+        let isClickerGameRunning = true; //This will determine if the clicker game is currently running 
+
+        clickerGame.start(); //Initially The Clicker Game will be running
+
+        //This Button is Only Visible While in the Clicker Game And the Clicker Game is time is Over 
+        switchGameButton.onclick = function() {
+            console.log("Going to the Zombie Game");
+            /**Clicker Game is No Longer Running  */
+            isClickerGameRunning = false; 
+
+            clickerGame.disableGame();
+
+            zombieGame.enableComponents();//Enabling the Zombie Game Components
+
+            /**
+             * Updating all the components of the zombie Game And Drawing Them on the Canvas 
+             * As long as the ClickerGame is Not Running
+             */
+            setInterval(function() {
+                if(isClickerGameRunning === false) {
+                    zombieGame.start();
+                }
+            }, 33);// 33 milliseconds = 30 frames per sec
 
         };
 
-    };
+        //This Button is Only visible While in the Zombie Game 
+        goToClickerGameButton.onclick = function() {
+            console.log("Going To the Clicker Game");
+            isClickerGameRunning = true; //Clicker Game is Now Running 
+
+            zombieGame.disableComponenets(); //Disabling the Components of the Zombie Game 
+
+            clickerGame.enableGame(); //Enabling the Clicker Game
+
+        };
+        
+
 
     // }, 15000); //Will Start the Game After the Main Menu Screen Is Done 
 
