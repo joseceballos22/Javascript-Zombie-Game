@@ -99,13 +99,13 @@ body {
 .battle_background {
     position: absolute;
     top: 50px;
-    left: 300px;
+    left: 350px;
 }
 /* Defines the Canvas Element used for the zombie game*/
 .zombie_game_canvas {
     position: absolute;
     top: 50px;
-    left: 300px;
+    left: 350px;
 }
 
 
@@ -124,11 +124,11 @@ body {
 /* Defines the Survivor Inventory For the Zombie Game*/
 .survivor_inventory {
     position: absolute;
-    top: 300px;
-    left: 50px;
+    top: 200px;
+    left: 10px;
     font-family: Arial, Helvetica, sans-serif;
     color: white;
-    font-size: 50px;
+    font-size: 45px;
     -webkit-text-stroke: 3px black;
     font-weight: bolder;
 }

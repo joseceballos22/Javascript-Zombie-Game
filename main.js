@@ -60,7 +60,7 @@
  * Represents the Economy Of the Clicker Game
  * 
  */
-const USER_MULTIPLIER_FACTOR = 2; //User Will get twice as strong 
+const USER_MULTIPLIER_FACTOR = 200; //User Will get twice as strong 
 const USER_PRICE_FACTOR = 2; //While prices get Twice As Strong 
 
 const USER_WEAPON_FACTOR = 10; //Makes it so that they can only Buy 1 Of each 
@@ -86,12 +86,12 @@ window.addEventListener("keyup" , keyUp);
 const keys = {}; //Keeps track of the keys pressed { key, boolean }
 
 function keyDown(e) {
-    console.log("Player Pressed: " + e.keyCode);
+    // console.log("Player Pressed: " + e.keyCode);
 	keys[e.keyCode] = true; //Key is pressed 
 }
 
 function keyUp(e) {
-    console.log("Player Pressed: " + e.keyCode);
+    // console.log("Player Pressed: " + e.keyCode);
 	keys[e.keyCode] = false; //No longer pressed
 }
 
@@ -134,6 +134,9 @@ class Survivor {
         /**Getting A Reference to the Survivor Inventory Stuff*/
         this.survivorPistol = document.getElementById("survivorPistol");
         this.survivorAmmo = document.getElementById("survivorAmmo");
+        this.survivorSpeed = document.getElementById("survivorSpeed");
+        this.bulletSpeed = document.getElementById("bulletSpeed");
+        this.bulletDamage = document.getElementById("bulletDamage");
 
         /**Updating Survivor Pistol with Clicker Game Inventory */
         let pistolAmount = parseInt(document.getElementById("userPistol").innerHTML.split(" ")[2]);
@@ -142,6 +145,18 @@ class Survivor {
         let ammoAmount = parseInt(document.getElementById("userAmmo").innerHTML.split(" ")[2]);
         this.survivorAmmo.innerHTML = this.survivorAmmo.innerHTML.split(" ")[0] + " " + ammoAmount;
         
+        /**Updating Survivor Speed With Clicker Game Inventory */
+        let survivorSpeed = parseInt(document.getElementById("userSpeed").innerHTML.split(" ")[2]);
+        this.survivorSpeed.innerHTML = this.survivorSpeed.innerHTML.split(" ")[0] + " " + survivorSpeed;
+
+        /**Updating Bullet Speed With Clicker Game Inventory */
+        let bulletSpeed = parseInt(document.getElementById("userBulletSpeed").innerHTML.split(" ")[3]);
+        this.bulletSpeed.innerHTML = this.bulletSpeed.innerHTML.split(" ")[0] + " " + bulletSpeed;
+
+        /**Updating Bullet Damage With Clicker Game Inventory */
+        let bulletDamage = parseInt(document.getElementById("userBulletDamage").innerHTML.split(" ")[3]);
+        this.bulletDamage.innerHTML = this.bulletDamage.innerHTML.split(" ")[0] + " " + bulletDamage;
+
 
         /**Getting the Survivor Image  */
         this.survivorImage = document.getElementById("survivorImage");
@@ -151,7 +166,16 @@ class Survivor {
         this.posY = 400;
         this.width = 100; 
         this.height = 100;
-        this.speed = 10; //Player Speed 
+
+        /**
+         * Updates User Inventory With Clicker Game Stuff
+         */
+        this.userHasPistol = parseInt(this.survivorPistol.innerHTML.split(" ")[1]) > 0 ? true : false; //Determines if the user Has A Pistol Or Not
+        console.log(this.userHasPistol);
+        this.ammo = parseInt(this.survivorAmmo.innerHTML.split(" ")[1]);
+        this.speed = 5 + parseInt(this.survivorSpeed.innerHTML.split(" ")[1]);  
+        this.bulletSpeedNum = 1 + parseInt(this.bulletSpeed.innerHTML.split(" ")[1]); 
+        this.bulletDamageNum = 1 + parseInt(this.bulletDamage.innerHTML.split(" ")[1]);
     }
 
     /**
@@ -161,7 +185,18 @@ class Survivor {
         this._movePlayer(); //Moving the player
         // console.log("Player X Pos: " + this.posX);
         // console.log("Player Y Pos: " + this.posY);
-		this._checkBoundaries(); //Ensures we are within the border
+        this._checkBoundaries(); //Ensures we are within the border
+        
+        /**
+         * Updates User Inventory With Clicker Game Stuff
+         */
+        this.userHasPistol = parseInt(this.survivorPistol.innerHTML.split(" ")[1]) > 0 ? true : false; //Determines if the user Has A Pistol Or Not
+        console.log(this.userHasPistol);
+        this.ammo = parseInt(this.survivorAmmo.innerHTML.split(" ")[1]);
+        this.speed = 5 + parseInt(this.survivorSpeed.innerHTML.split(" ")[1]);  
+        this.bulletSpeedNum = 1 + parseInt(this.bulletSpeed.innerHTML.split(" ")[1]); 
+        this.bulletDamageNum = 1 + parseInt(this.bulletDamage.innerHTML.split(" ")[1]);
+
     }
     /** Limits The player so that he can't go outside the border 
 	 * 
@@ -947,9 +982,9 @@ function main() {
     const clickerGame = new ClickerGame(); 
     clickerGame.start(); //Starting the Clicker Game 
 
-    //Zombie Game Stuff 
+    // Zombie Game Stuff 
 
-    //This Button is Only Visible Once the Clicker Game Is Over 
+    // This Button is Only Visible Once the Clicker Game Is Over 
     const switchGameButton = document.getElementById("switchGameButton");
     switchGameButton.onclick = function() {
         //Hide all the clickerGame Html Elements
@@ -963,6 +998,14 @@ function main() {
             zombieGame.start();
         }, 33);// 33 milliseconds = 30 frames per sec
     };  
+
+    // /**Creating and Starting the Zombie Game */
+    // const zombieGame = new ZombieGame();
+
+    // //Updating all the components of the zombie Game And Drawing Them 
+    // setInterval(function() {
+    //     zombieGame.start();
+    // }, 33);// 33 milliseconds = 30 frames per sec
 
 }
 main(); 
