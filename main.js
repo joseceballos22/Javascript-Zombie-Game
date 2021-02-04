@@ -125,6 +125,20 @@ class ZombieGame {
 
         this.zombieSpawnCounter = 0; //Initially Zero 
 
+        //Used for collision detection 
+        this.collisionDetector = new CollisionDetection(); 
+
+        //Checks If the Game Is Over 
+        this.isZombieGameOver = false; //Initially Its Not 
+
+        /**
+         * Result can be either 
+         * - playing 
+         * - won 
+         * - lost
+         */
+        this.result = "playing";
+
     }
 
     /**
@@ -180,8 +194,27 @@ class ZombieGame {
      * Starts the Zombie Game
      */
     start() {
+        //Game is Over 
+        if(this.checkIfGameOver()) {
+            if(this.result === "won") {
+                location.replace("states/won.html"); //Go to the won file
+            }
+            else {
+                location.replace("states/lost.html"); //Go to the lost file 
+            }
+        }
+        this.checkForCollision(); //Checks for collision 
         this.updateComponents(); //Updating all the components in the zombie game 
         this.draw(); //Draws all the components of the game
+    }
+
+    /**
+     * Checks if the player Won Or Lost 
+     */
+    checkIfGameOver() {
+        if(this.result !== "playing") {
+            return true;
+        }
     }
 
     /**
@@ -201,8 +234,6 @@ class ZombieGame {
 
         this.spawnZombies(); //Spawn Zombies 
 
-        console.log("Zombie Count On Screen: " +  this.zombieList.length);
-
         this.zombieSpawnCounter += 1; //Incrementing the Zombie Counter 
 
     }
@@ -212,8 +243,6 @@ class ZombieGame {
      * Randomly From Right To Left  
      */
     spawnZombies() {
-
-        console.log(this.zombieSpawnCounter);
 
         if(this.zombieSpawnCounter >= this.zombieSpawnRate) {
             console.log("Called")
@@ -241,6 +270,22 @@ class ZombieGame {
             }
         }
 
+    }
+
+    /**
+     * Checks For Collision Detection For the Componenets of the Game 
+     */
+    checkForCollision() {
+        /**Checking If Any Zombies Have Eatten the Player */
+        this.zombieList.forEach((zombie, zombieIndex) => {
+            let result = this.collisionDetector.checkForCollision(this.survivor, zombie);
+        
+            if(result) {
+                this.result = "lost";
+                console.log("Zombie Colliding With Player");
+            }
+
+        });
     }
 }
 
@@ -464,22 +509,44 @@ class Survivor {
  * Simple Collision Detection 
  */
 class CollisionDetection {
-    constructor(first, second) {
-       this.first = first;
-       this.second = second; 
+    constructor() {
     }
     /**
      * Simple Collision Method Which 
      * Returns True if colliding 
      * Returns False If Not 
      */
-    checkForCollision() {
+    checkForCollision(first, second) {
         let isColliding = false; //Initially Not colliding 
-
-        /**
-         * Getting the positions of the first and second surfaces 
-         */
         
+        //getting the Positions 
+        let firstX= first.posX; 
+        let firstY = first.posY;
+        let secondX = second.posX;
+        let secondY = second.posY;
+
+        //Getting Half sizes of first and second objects and saving them in a array  
+
+        let firstHalfSize = [first.width / 2, first.height / 2];
+        let secondHalfSize = [second.width / 2, second.height / 2];
+
+        //Getting the Center of the Objects 
+        let firstCenter = [firstX - firstHalfSize[0], firstY - firstHalfSize[1]];
+		let secondCenter = [secondX - secondHalfSize[0], secondY - secondHalfSize[1]];
+
+        //Calculating the Distance Between Both Centers 
+        let deltaX = Math.abs(firstCenter[0] - secondCenter[0]);
+        let deltaY = Math.abs(firstCenter[1] - secondCenter[1]);
+        
+        //Getting the Intersects 
+        let intersectX = deltaX - (firstHalfSize[0] + secondHalfSize[0]);
+        let intersectY = deltaY - (firstHalfSize[1] + secondHalfSize[1]);
+        
+        //If these statements are true then first and second are colliding 
+		if (intersectX < 0 && intersectY < 0) {
+			isColliding = true;
+        }
+        return isColliding; //Returning the Answer 
     }
 }
 

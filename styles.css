@@ -12,6 +12,27 @@ body {
     -webkit-text-stroke: 2px black; 
 }
 
+.game_over {
+    position: absolute;
+    top: 0px;
+    left: 300px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    font-size: 75px;
+    -webkit-text-stroke: 2px black; 
+}
+/* Play Again Button*/
+.play_again {
+    font-size: 75px;
+    position: absolute;
+    top: 600px;
+    left: 400px;    
+    background-color: rgb(117, 193, 236);
+    font-weight: bolder;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
 /*
     Used to Edit all the text used through out the application
 */
@@ -104,6 +125,7 @@ body {
     font-weight: bolder;
     font-family: Arial, Helvetica, sans-serif;
 }
+
 
 /* Defines the battle Background For The Zombie Game */
 .battle_background {
