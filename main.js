@@ -94,11 +94,17 @@ function keyUp(e) {
 	keys[e.keyCode] = false; //No longer pressed
 }
 
+//Gives Random Number 
+function getRandomInt(max) {
+    return Math.floor(Math.random() * Math.floor(max));
+  }
+
 /**
  * Defining Constants 
  */
 const screenW = 1200;
 const screenH = 800; 
+
 
 
 /**
@@ -108,6 +114,19 @@ class ZombieGame {
     constructor() {
         //Creating a Survivor
         this.survivor = new Survivor(); 
+
+        //Creating a list which will contain all the little zombies 
+        this.zombieList = []; //Initially Empty
+
+
+        
+        /**
+         * will spawn zombies every 10 seconds 
+         */
+        this.zombieSpawnRate = 100; //Every Second it will spawn a zombie  
+
+        this.zombieSpawnCounter = 0; //Initially Zero 
+
     }
 
     /**
@@ -172,21 +191,85 @@ class ZombieGame {
      */
     updateComponents() {
         this.survivor.updateComponents();
+
+        this.zombieList.forEach((zombie, zombieIndex) => {
+            zombie.updateComponents(); //Updating the Zombies 
+
+            //Zombie Out of Map Remove it 
+            if(zombie.isInMap === false) {
+                this.zombieList.splice(zombieIndex, 1);
+            }
+        });
+
+        this.spawnZombies(); //Spawn Zombies 
+
+        console.log("Zombie Count On Screen: " +  this.zombieList.length);
+
+        this.zombieSpawnCounter += 1; //Incrementing the Zombie Counter 
+
     }
+
+    /**
+     * Spawns zombies to the screen Depending on the zombie Spawn rate 
+     * Randomly From Right To Left  
+     */
+    spawnZombies() {
+
+        console.log(this.zombieSpawnCounter);
+
+        if(this.zombieSpawnCounter >= this.zombieSpawnRate) {
+            console.log("Called")
+            let zombiePosY = getRandomInt(screenH - 100);
+            let zombiePosX = screenW; 
+            this.zombieList.push(new Zombie(zombiePosX, zombiePosY));
+
+            this.zombieSpawnCounter = 0; //Resetting the Counter 
+        }
+
+
+    }
+    
     /**
      * Draws all the components of the Zombie Game On the canvas 
      */
     draw() {
         context.clearRect(0, 0, zombieGameCanvas.width, zombieGameCanvas.height)  //Clearing First 
         this.survivor.draw();
+
+        //Drawing all the zombies on the screen 
+        if(this.zombieList.length > 0) {
+            for(const i in this.zombieList) {
+                this.zombieList[i].draw(); //Drawing every zombie in the list 
+            }
+        }
+
     }
 }
 
 /**
  * Represents the Zombie
+ * 
+ * Zombies Can Only Move From Right To Left 
  */
 class Zombie {
-    constructor() {
+    constructor(posX, posY ,health=1, speed=5, width=100, height=100) {
+        /**Getting the Zombies Image  */
+        this.zombieImage = document.getElementById("zombieImage");
+        
+        /**Defining the Zombies Rect */
+        this.posX = posX;
+        this.posY = posY;
+        this.width = width; 
+        this.height = height;
+
+        /**Zombie Health */
+        this.health = health; 
+
+        /**Determines if the zombie is still in the map */
+        this.isInMap = true; //Initially true
+
+        /**Determines the zombie speed */
+        this.speed = speed;
 
     }
 
@@ -194,12 +277,29 @@ class Zombie {
      * Updates all the components a Zombie has 
      */
     updateComponents() {
+        this.moveZombie(); //Constantly Moving the Zombie 
+        this.checkIfInMap(); //Constantly Checks if the zombie is still in the map 
+    }
 
+    /**
+     * Constantly Moves the Zombie to From Right To Left 
+     */
+    moveZombie() {
+        this.posX -= this.speed;
+    }
+
+    /**
+     * Determines if the zombie is still in the map 
+     */
+    checkIfInMap() {
+        if(this.posX <= 0) {
+            this.isInMap = false; 
+        }
     }
 
     /** Draws the Zombies On the screen */
     draw() {
-
+        context.drawImage(this.zombieImage, this.posX,this.posY, this.width, this.height); //THIS DRAWS THE Zombie On the Screen 
     }
     
 }
@@ -358,6 +458,30 @@ class Survivor {
         this.speed = 5 + parseInt(this.survivorSpeed.innerHTML.split(" ")[1]);  
         this.bulletSpeedNum = 1 + parseInt(this.bulletSpeed.innerHTML.split(" ")[1]); 
         this.bulletDamageNum = 1 + parseInt(this.bulletDamage.innerHTML.split(" ")[1]);
+    }
+}
+
+
+/**
+ * Simple Collision Detection 
+ */
+class CollisionDetection {
+    constructor(first, second) {
+       this.first = first;
+       this.second = second; 
+    }
+    /**
+     * Simple Collision Method Which 
+     * Returns True if colliding 
+     * Returns False If Not 
+     */
+    checkForCollision() {
+        let isColliding = false; //Initially Not colliding 
+
+        /**
+         * Getting the positions of the first and second surfaces 
+         */
+        
     }
 }
 
