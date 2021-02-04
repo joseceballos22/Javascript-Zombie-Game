@@ -313,6 +313,14 @@ class Clicker {
             //Ensures no Negative Time 
             if(getCurrentTime <= 0) {
                 userTime.innerHTML = userTime.innerHTML.split(" ")[0] + " " + 0;
+
+                //Still Can Earn Money 
+                //Updating Money 
+                let factor =  parseInt(user.userMultiplier.innerHTML);
+                let userNumMoney = parseInt(userMoney.innerHTML.split(" ")[1]); //Getting the latest Money 
+                userNumMoney += factor; //Adding one dollar times the factor for every click 
+                userMoney.innerHTML = userMoney.innerHTML.split(" ")[0] + " " + userNumMoney;  //Incrementing the Money Label
+
             }
         };
     }
@@ -430,6 +438,15 @@ class UserShop {
                     //Ensures no Negative Time 
                     if(getCurrentTime <= 0) {
                         userTime.innerHTML = userTime.innerHTML.split(" ")[0] + " " + 0;
+                        
+                        console.log("Called")
+                        //Still Can Do Work After Time to Earn Money 
+                        //Updating Money 
+                        let factor =  parseInt(user.userMultiplier.innerHTML);
+                        let userNumMoney = parseInt(userMoney.innerHTML.split(" ")[1]); //Getting the latest Money 
+                        userNumMoney += factor; //Adding one dollar times the factor for every click 
+                        userMoney.innerHTML = userMoney.innerHTML.split(" ")[0] + " " + userNumMoney;  //Incrementing the Money Label
+
                     }
 
                  }, 1000);
