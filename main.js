@@ -550,15 +550,11 @@ class UserShop {
             /**First Check if the user Has the money for it  */
             let oldMoney = parseInt(userMoney.innerHTML.split(" ")[1]);
             let oldPrice = parseInt(userBuyPlayerSpeedTag.innerHTML.split(" ")[3]);
-            
-            //Used For Debugging
-            console.log("MONEY" + oldMoney); 
-            console.log("PRICE " + oldPrice);
 
             const userHasMoney = (oldMoney >= oldPrice) ? true : false;
             console.log(userHasMoney)
             if(userHasMoney) {
-                //Updating the User Pistol Count to include an extra one 
+                //Updating the User Speed Count to include an extra one 
                 let oldCount = parseInt(user.userSpeed.innerHTML.split(" ")[2]); 
                 let newCount = oldCount + 1; 
                 //Getting the First Part 
@@ -568,7 +564,7 @@ class UserShop {
                 {
                     firstPart += lst[i] + " ";
                 }
-                //Updating the User Pistol Tag With the Newly Added Pistol
+                //Updating the User Speed Tag With the Newly Added Speed
                 user.userSpeed.innerHTML = firstPart + newCount;
 
 
@@ -585,6 +581,86 @@ class UserShop {
                 }
                 userBuyPlayerSpeedTag.innerHTML = firstPartMsg + newPrice;
 
+            }
+        };
+        /**
+         * Checking If the user wants to buy Bullet Speed
+         */
+        this.buyBulletSpeed.onclick = function() {
+            /**First Check if the user Has the money for it  */
+            let oldMoney = parseInt(userMoney.innerHTML.split(" ")[1]);
+            let oldPrice = parseInt(buyBulletSpeedTag.innerHTML.split(" ")[3]);
+            
+            const userHasMoney = (oldMoney >= oldPrice) ? true : false;
+            console.log(userHasMoney)
+            if(userHasMoney) {
+                //Updating the Bullet Speed Count to include an extra one 
+                let oldCount = parseInt(user.userBulletSpeed.innerHTML.split(" ")[3]); 
+                let newCount = oldCount + 1; 
+                //Getting the First Part 
+                let lst = user.userBulletSpeed.innerHTML.split(" ");
+                let firstPart = "";
+                for(let i = 0; i < lst.length - 1; i++)
+                {
+                    firstPart += lst[i] + " ";
+                }
+                //Updating the Bullet Speed Tag With the Newly Added Speed
+                user.userBulletSpeed.innerHTML = firstPart + newCount;
+
+                //Updating the user money Tag And the Price of the Upgrade 
+                let newMoney = oldMoney - oldPrice;
+                user.userMoney.innerHTML = userMoney.innerHTML.split(" ")[0] + " " + newMoney; 
+
+                let newPrice = oldPrice * USER_PRICE_FACTOR; 
+                let tempLst = buyBulletSpeedTag.innerHTML.split(" ");
+                let firstPartMsg = "";
+                //Don't want the last element
+                for(let i = 0; i < tempLst.length - 1; i++) {
+                    firstPartMsg += tempLst[i] + " "; 
+                }
+                buyBulletSpeedTag.innerHTML = firstPartMsg + newPrice;
+            }
+        };
+        /**
+         * Checking If The user wants to buy Bullet Damage 
+         */
+        this.buyBulletDamage.onclick = function() {
+            /**First Check if the user Has the money for it  */
+            let oldMoney = parseInt(userMoney.innerHTML.split(" ")[1]);
+            let oldPrice = parseInt(buyBulletDamageTag.innerHTML.split(" ")[3]);
+            
+            //Used For Debugging
+            console.log("MONEY" + oldMoney); 
+            console.log("PRICE " + oldPrice);
+
+            const userHasMoney = (oldMoney >= oldPrice) ? true : false;
+            console.log(userHasMoney)
+            if(userHasMoney) {
+                //Updating the Bullet Damage Count to include an extra one 
+                let oldCount = parseInt(user.userBulletDamage.innerHTML.split(" ")[3]); 
+                let newCount = oldCount + 1; 
+                //Getting the First Part 
+                let lst = user.userBulletDamage.innerHTML.split(" ");
+                let firstPart = "";
+                for(let i = 0; i < lst.length - 1; i++)
+                {
+                    firstPart += lst[i] + " ";
+                }
+                //Updating the Bullet Damage Tag With the Newly Added Damage
+                user.userBulletDamage.innerHTML = firstPart + newCount;
+
+                //Updating the user money Tag And the Price of the Upgrade 
+                let newMoney = oldMoney - oldPrice;
+                user.userMoney.innerHTML = userMoney.innerHTML.split(" ")[0] + " " + newMoney; 
+
+                let newPrice = oldPrice * USER_PRICE_FACTOR; 
+                let tempLst = buyBulletDamageTag.innerHTML.split(" ");
+                let firstPartMsg = "";
+                //Don't want the last element
+                for(let i = 0; i < tempLst.length - 1; i++) {
+                    firstPartMsg += tempLst[i] + " "; 
+                }
+                buyBulletDamageTag.innerHTML = firstPartMsg + newPrice;
             }
         };
     }
