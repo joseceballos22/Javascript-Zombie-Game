@@ -101,6 +101,55 @@ function keyUp(e) {
 const screenW = 1200;
 const screenH = 800; 
 
+
+/**
+ * Represents the Zombie Game 
+ */
+class ZombieGame {
+    constructor() {
+        //Hiding all the Clicker Game Stuff 
+        document.getElementById("battleBackground").style.display = "block"; //Showing the Battle background
+        document.getElementsByTagName("body")[0].style.backgroundImage = "url(images/whiteBackground.png)"; //Just going to use a white background
+        document.getElementById("title").style.display = "none";
+
+        //Enabling the Go Home Button 
+        document.getElementById("switchToClickerGame").style.display = "block";
+
+        /**Showing The Survivor Title */
+        document.getElementById("survivorTitle").style.display = "block"
+
+        /** Showing Instructions  */
+        document.getElementById("zombieGameInstructions").style.display = "block";
+
+        /** Showing the Canvas On the screen */
+        document.getElementById("zombieGameCanvas").style.display = "block";
+
+        //Creating a Survivor
+        this.survivor = new Survivor(); 
+    }
+    /**
+     * Starts the Zombie Game
+     */
+    start() {
+        this.updateComponents(); //Updating all the components in the zombie game 
+        this.draw(); //Draws all the components of the game
+    }
+
+    /**
+     * Updates all the components of the Zombie Game 
+     */
+    updateComponents() {
+        this.survivor.updateComponents();
+    }
+    /**
+     * Draws all the components of the Zombie Game On the canvas 
+     */
+    draw() {
+        context.clearRect(0, 0, zombieGameCanvas.width, zombieGameCanvas.height)  //Clearing First 
+        this.survivor.draw();
+    }
+}
+
 /**
  * Represents the Zombie
  */
@@ -251,51 +300,6 @@ class Survivor {
     /** Draws the Survior On the screen */
     draw() {
         context.drawImage(this.survivorImage, this.posX,this.posY, this.width, this.height); //THIS DRAWS THE Survivor On the Screen 
-    }
-}
-
-/**
- * Represents the Zombie Game 
- */
-class ZombieGame {
-    constructor() {
-        //Hiding all the Clicker Game Stuff 
-        document.getElementById("battleBackground").style.display = "block"; //Showing the Battle background
-        document.getElementsByTagName("body")[0].style.backgroundImage = "url(images/whiteBackground.png)"; //Just going to use a white background
-        document.getElementById("title").style.display = "none";
-
-        /**Showing The Survivor Title */
-        document.getElementById("survivorTitle").style.display = "block"
-
-        /** Showing Instructions  */
-        document.getElementById("zombieGameInstructions").style.display = "block";
-
-        /** Showing the Canvas On the screen */
-        document.getElementById("zombieGameCanvas").style.display = "block";
-
-        //Creating a Survivor
-        this.survivor = new Survivor(); 
-    }
-    /**
-     * Starts the Zombie Game
-     */
-    start() {
-        this.updateComponents(); //Updating all the components in the zombie game 
-        this.draw(); //Draws all the components of the game
-    }
-
-    /**
-     * Updates all the components of the Zombie Game 
-     */
-    updateComponents() {
-        this.survivor.updateComponents();
-    }
-    /**
-     * Draws all the components of the Zombie Game On the canvas 
-     */
-    draw() {
-        context.clearRect(0, 0, zombieGameCanvas.width, zombieGameCanvas.height)  //Clearing First 
-        this.survivor.draw();
     }
 }
 
@@ -949,44 +953,19 @@ function main() {
     /**
      * ------------- Finished Version (Uncomment Once Done) -------------
      */
-    // showMainMenu(); //First it will show the main menu then go to the game
-    // setTimeout(function() {
+    showMainMenu(); //First it will show the main menu then go to the game
+    setTimeout(function() {
 
-    //     //Place Game Code In Here 
-    //     //First thing Doing the clicker Game 
-    //     const clickerGame = new ClickerGame(); 
-    //     clickerGame.start(); //Starting the Clicker Game 
+        //Place Game Code In Here 
+        //First thing Doing the clicker Game 
+        const clickerGame = new ClickerGame(); 
+        clickerGame.start(); //Starting the Clicker Game 
 
-    //     //Second Thing Doing the Zombie Game 
+        //Second Thing Doing the Zombie Game 
 
-    //     //This Button is Only Visible Once the Clicker Game Is Over 
-    //     const switchGameButton = document.getElementById("switchGameButton");
-    //     switchGameButton.onclick = function() {
-    //     //Hide all the clickerGame Html Elements
-    //     clickerGame.disableGame(); //Hides All the Elements 
-        
-    //     /**Creating and Starting the Zombie Game */
-    //     const zombieGame = new ZombieGame();
-
-    //     //Updating all the components of the zombie Game And Drawing Them 
-    //     setInterval(function() {
-    //         zombieGame.start();
-    //     }, 33);// 33 milliseconds = 30 frames per sec
-        
-    // };
-
-    // }, 15000); //Will Start the Game After the Main Menu Screen Is Done 
-
-    //--------------- Used For Debugging -------------
-
-    const clickerGame = new ClickerGame(); 
-    clickerGame.start(); //Starting the Clicker Game 
-
-    // Zombie Game Stuff 
-
-    // This Button is Only Visible Once the Clicker Game Is Over 
-    const switchGameButton = document.getElementById("switchGameButton");
-    switchGameButton.onclick = function() {
+        //This Button is Only Visible Once the Clicker Game Is Over 
+        const switchGameButton = document.getElementById("switchGameButton");
+        switchGameButton.onclick = function() {
         //Hide all the clickerGame Html Elements
         clickerGame.disableGame(); //Hides All the Elements 
         
@@ -997,15 +976,17 @@ function main() {
         setInterval(function() {
             zombieGame.start();
         }, 33);// 33 milliseconds = 30 frames per sec
-    };  
+        
+        /**Will Take the User To The Clicker Game */
+        const goToClickerGameButton = document.getElementById("switchToClickerGame");
+        goToClickerGameButton.onclick = function() {
 
-    // /**Creating and Starting the Zombie Game */
-    // const zombieGame = new ZombieGame();
+        };
 
-    // //Updating all the components of the zombie Game And Drawing Them 
-    // setInterval(function() {
-    //     zombieGame.start();
-    // }, 33);// 33 milliseconds = 30 frames per sec
+    };
+
+    }, 15000); //Will Start the Game After the Main Menu Screen Is Done 
+
 
 }
 main(); 
