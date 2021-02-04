@@ -953,8 +953,8 @@ function main() {
     /**
      * ------------- Finished Version (Uncomment Once Done) -------------
      */
-    showMainMenu(); //First it will show the main menu then go to the game
-    setTimeout(function() {
+    // showMainMenu(); //First it will show the main menu then go to the game
+    // setTimeout(function() {
 
         //Place Game Code In Here 
         //First thing Doing the clicker Game 
@@ -985,7 +985,7 @@ function main() {
 
     };
 
-    }, 15000); //Will Start the Game After the Main Menu Screen Is Done 
+    // }, 15000); //Will Start the Game After the Main Menu Screen Is Done 
 
 
 }
