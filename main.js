@@ -117,8 +117,6 @@ class ZombieGame {
 
         //Creating a list which will contain all the little zombies 
         this.zombieList = []; //Initially Empty
-
-
         
         /**
          * will spawn zombies every 10 seconds 
@@ -455,7 +453,7 @@ class Survivor {
          */
         this.userHasPistol = parseInt(this.survivorPistol.innerHTML.split(" ")[1]) > 0 ? true : false; //Determines if the user Has A Pistol Or Not
         this.ammo = parseInt(this.survivorAmmo.innerHTML.split(" ")[1]);
-        this.speed = 5 + parseInt(this.survivorSpeed.innerHTML.split(" ")[1]);  
+        this.speed = 2 + parseInt(this.survivorSpeed.innerHTML.split(" ")[1]);  
         this.bulletSpeedNum = 1 + parseInt(this.bulletSpeed.innerHTML.split(" ")[1]); 
         this.bulletDamageNum = 1 + parseInt(this.bulletDamage.innerHTML.split(" ")[1]);
     }
