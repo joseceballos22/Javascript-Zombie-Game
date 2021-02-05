@@ -1147,7 +1147,7 @@ class ClickerGame {
         //Turning the Background into a Happy Background 
         document.getElementsByTagName("body")[0].style.backgroundImage = "url(images/happyBackground.jpg)";
         //Changing the title To a happy Title 
-        document.getElementById("title").innerHTML = "Happy Land";
+        document.getElementById("title").innerHTML = "Bunker";
 
         const userTime = this.user.userTime;
         const isClickerGameOverTag = this.isClickerGameOver;
@@ -1253,18 +1253,18 @@ function showMainMenu() {
     setTimeout(function() {
         hideText(["main_menu_1"]);
         main_menu_text_2.style.display = "block";
-    }, 5000);
+    }, 4000);
     setTimeout(function() {
         hideText(["main_menu_2"]);
         main_menu_text_3.style.display = "block";
-    }, 8000);
+    }, 6000);
     setTimeout(function() {
         hideText(["main_menu_3"]);
         main_menu_text_4.style.display = "block";
-    }, 11000);
+    }, 8000);
     setTimeout(function() {
         hideText(["main_menu_4"]);
-    }, 15000);
+    }, 10000);
 
 }
 
@@ -1304,6 +1304,9 @@ function main() {
         document.getElementById("mySong").loop = true;
         document.getElementById("mySong").play();
         document.getElementById("mySong").volume = 0.3;
+
+        document.getElementById("switchGameButton").style.display = "block"; //Allowing the User to go outside
+
         clickerGame.start(); //Initially The Clicker Game will be running
 
         //This Button is Only Visible While in the Clicker Game And the Clicker Game is time is Over 
@@ -1339,7 +1342,7 @@ function main() {
 
         };
 
-    }, 15000); //Will Start the Game After the Main Menu Screen Is Done 
+    }, 10000); //Will Start the Game After the Main Menu Screen Is Done 
 
 
 }

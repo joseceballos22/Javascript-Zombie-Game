@@ -21,6 +21,7 @@
     <audio id="mySong">
         <source src="sounds/still.mp3" type="audio/mp3">
     </audio>
+    
     <!--Used to Show the Main Menu Introduction Into the game -->
     <div class="main_menu_text">
         <div id="main_menu_1" style="display: none;">Everyone thinks you're crazy</div>
@@ -29,13 +30,10 @@
         <div id="main_menu_4" style="display: none;">And you know something BIG IS COMING ...</div>
     </div>
 
-
-    <button id="clicker" class="clicker glow-on-hover" style="display: none;">Earn Money</button>
-
     <!--User Information Going to Use A Space as a Delimiter When Getting Data -->
     <div class="user_info" id="userInfo" style="display: none;">
         <div id="userTime">Time: 86400</div>
-        <div id="userMoney">Money: 0</div>
+        <div id="userMoney">Supplies: 0</div>
         <div>Inventory: </div>
         <ul id="userInventoryList"> <!--Will Contain Ammo, Guns, Etc.. -->
             <li id="userAmmo">User Ammo: 0</li>
@@ -47,13 +45,15 @@
         <div id="userMultiplier" style="display: none;">1</div> <!--Needed to Dynamically Change During Game-->
     </div>
 
+    <button id="clicker" class="clicker glow-on-hover" style="display: none;">Prepare !</button>
+
     <!-- This Will Represent the User Shop For the Clicker Game -->
     <div class="user_shop" id="userShop" style="display: none;">
         <div>
-            <button class="user_shop_item glow-on-hover" id="getAnotherJob">Double Money Multipler: 30</button> <!--Doubles the User Income per click but waste double the time-->
+            <button class="user_shop_item glow-on-hover" id="getAnotherJob">Double Supplies Multipler: 30</button> <!--Doubles the User Income per click but waste double the time-->
         </div>
         <div>
-            <button class="user_shop_item glow-on-hover" id="hireWorker">Hire A Worker: 500</button> <!--Automatically Clicks For you using your multiplyer-->
+            <button class="user_shop_item glow-on-hover" id="hireWorker">Look For Survivors: 500</button> <!--Automatically Clicks For you using your multiplyer-->
         </div>
         <div> 
             <button class="user_shop_item glow-on-hover" id="buyAmmo">Buy Ammo: 2</button> <!--Doubles in Price as the per ammo (Need a Pistol Before Can Purchase)-->
