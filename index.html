@@ -61,7 +61,7 @@
             <button class="user_shop_item glow-on-hover" id="buyBulletSpeed">Buy Bullet Speed: 150</button> <!--It's only a one time purchase-->
         </div>
         <div>
-            <button class="user_shop_item glow-on-hover" id="buyBulletDamage">Buy Bullet Damage: 1000</button> <!--It's only a one time purchase-->
+            <button class="user_shop_item glow-on-hover" id="buyBulletDamage" style="display: none;">Buy Bullet Damage: 1000</button> <!--It's only a one time purchase-->
         </div>
 
     </div>
@@ -89,15 +89,17 @@
         <div id="survivorAmmo">Ammo: 0</div>
         <div id="survivorSpeed">P_Speed: 0</div>
         <div id="bulletSpeed">B_Speed: 0</div>
-        <div id="bulletDamage">B_Damage: 0</div>
+        <div id="bulletDamage" style="display: none;">B_Damage: 0</div>
     </div>
 
     <!-- Instructions On How to Play the Zombie Game -->
     <div class="zombie_game_instructions" id="zombieGameInstructions" style="display: none;">
+        <h1 id="objective">
+            Objective: Kill 40 Zombies
+        </h1>
         <!-- <p>
             Objective: Kill off all remaining zombies and save the world. Using only your inventory items. 
         </p> -->
-        <p>Did You Prepare ???</p>
         <p>
             Controls: 
         </p>        
@@ -114,6 +116,9 @@
 
     <!--Zombie Image-->
     <img src="images/zombie.png" id="zombieImage" style="display: none;">
+
+    <!--Bullet Image-->
+    <img src="images/bullet.png" id="bulletImage" style="display: none;">
 
     <!--Linking Javascript -->
     <script src="main.js"></script>

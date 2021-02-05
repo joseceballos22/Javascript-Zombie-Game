@@ -28,19 +28,6 @@
  * And if you do you win other wise you failed 
  * 
  * 
- * Future Things To Add: 
- * - Fix the initial prices of the game 
- * - Add sound (priortize this) (music)
- * - Replace All Classes into separate files and just export them (And have a Main Game Class which will do work main function doing)
- * - Add more guns to the clicker game and the zombie game 
- * - FUTURE SHOP THINGS 
- *      - Buy Player Speed so they can play it in a different way 
- *      - Buy Lives 
- *      - Buy Armor
- *      - Buy AK- 47 
- *      - Buy Submachine gun 
- * - Add Zombie waves 
- * - See how long they can survive 
  * 
  */
 
@@ -164,6 +151,11 @@ class ZombieGame {
 
         /**Enabling the Survivor Components */
         this.survivor.enableComponents(); 
+
+        //If this Turns into zero the Player has won 
+        this.killAmount = parseInt(document.getElementById("objective").innerHTML.split(" ")[14]); //Need to kill 40 to win
+
+        console.log("KILL AMOUNT: " + this.killAmount);
     }
     /**
      * Disables the Components of the Game 
@@ -215,6 +207,11 @@ class ZombieGame {
         if(this.result !== "playing") {
             return true;
         }
+        //Checking if the player fullfilled the objective 
+        if(this.killAmount <= 0) {
+            this.result = "won"; //Player has won 
+            return true;
+        }
     }
 
     /**
@@ -222,6 +219,14 @@ class ZombieGame {
      */
     updateComponents() {
         this.survivor.updateComponents();
+
+        //Removing the Survivor Bullets Once they Leave the Map 
+        this.survivor.bullets.forEach((bullet, bulletIndex) => {
+            //Bullet Out of Map Remove it 
+            if(bullet.isInMap === false) {
+                this.survivor.bullets.splice(bulletIndex, 1);
+            }
+        });
 
         this.zombieList.forEach((zombie, zombieIndex) => {
             zombie.updateComponents(); //Updating the Zombies 
@@ -253,7 +258,6 @@ class ZombieGame {
             this.zombieSpawnCounter = 0; //Resetting the Counter 
         }
 
-
     }
     
     /**
@@ -276,18 +280,73 @@ class ZombieGame {
      * Checks For Collision Detection For the Componenets of the Game 
      */
     checkForCollision() {
-        /**Checking If Any Zombies Have Eatten the Player */
+        /**Checking If Any Zombies Have collided with anything*/
         this.zombieList.forEach((zombie, zombieIndex) => {
+            
+            /**
+             * Checking if the player and zombie are colliding
+             */
             let result = this.collisionDetector.checkForCollision(this.survivor, zombie);
-        
             if(result) {
                 this.result = "lost";
                 console.log("Zombie Colliding With Player");
             }
+            /**
+             * Checking If Bullets Are colliding with the little zombies
+             * 
+             * Change the killAmount 
+             */
 
         });
     }
 }
+
+/**
+ * Represent A Bullet 
+ */
+class Bullet {
+    constructor(posX, posY, speed=10, width=20, height=20) {
+        
+        /**Getting the Bullet Image  */
+        this.bulletImage = document.getElementById("bulletImage");
+
+        this.width = width; 
+        this.height = height;
+
+        this.x = posX;
+        this.y = posY;
+        /**Determines if the Bullet is still in the map */
+        this.isInMap = true; //Initially true
+
+        /**Determines the Bullet speed */
+        this.speed = (2*speed) + 5;
+    }
+
+    /**
+     * Updates the Bullets
+     */
+    updateComponents()  {
+        this.x = this.x + this.speed
+        this.checkIfInMap(); //Constantly Checks if the bullet is still in the map 
+    }
+
+    /**
+     * Determines if the bullet is still in the map 
+     */
+    checkIfInMap() {
+        if(this.x >= screenW) {
+            this.isInMap = false; 
+        }
+    }
+    
+    /**
+     * Draws the Bullet on the screen
+     */
+    draw() {
+        context.drawImage(this.bulletImage, this.x,this.y, this.width, this.height); //THIS DRAWS THE Bullet On the Screen 
+    }
+}
+
 
 /**
  * Represents the Zombie
@@ -374,6 +433,13 @@ class Survivor {
         this.posY = 400;
         this.width = 100; 
         this.height = 100;
+
+        //Stores the players bullets
+        this.bullets = []; 
+
+        //Shooting Limiter 
+        this.shootingCounter = 0; 
+        this.shootingRate = 10; //Every Second since 30 fps 
     }
 
     /**
@@ -397,6 +463,10 @@ class Survivor {
      * Updates all the components a Survivor has 
      */
     updateComponents() {
+        
+        //Updating the shooting counter 
+        this.shootingCounter++; 
+
         this._movePlayer(); //Moving the player
         // console.log("Player X Pos: " + this.posX);
         // console.log("Player Y Pos: " + this.posY);
@@ -408,6 +478,10 @@ class Survivor {
         //Updating the Survivors Inventory Nums With the latest things from clicker game 
         this.updateInventoryNums(); 
 
+        //Updating the Players Bullets
+        this.bullets.forEach((bullet, index) => {
+            bullet.updateComponents();
+        });
     }
     /** Limits The player so that he can't go outside the border 
 	 * 
@@ -456,12 +530,35 @@ class Survivor {
 		if(keys["68"])
 		{
 			this.posX += this.speed;
-		}
+        }
+        //Player is Shooting 
+        if(keys["32"]) {
+            //Limits Bullets So it doesnt waste all player ammo 
+            if(this.shootingCounter >= this.shootingRate) {
+                //Player Can only shoot if he has ammo 
+                if(this.ammo > 0) {
+                    console.log("player is shooting");
+                    this.bullets.push(new Bullet(this.posX, this.posY, this.bulletSpeedNum));
+                    console.log("Bullet Count: " + this.bullets.length);
+                    this.shootingCounter = 0;
+                     this.ammo--; //Subing the Ammo Count 
+
+                     //Updating the Clicker Ammo And the Zombie Game Ammo With the New Ammo 
+                     document.getElementById("userAmmo").innerHTML = "User Ammo: " + this.ammo;
+                     this.survivorAmmo.innerHTML = this.survivorAmmo.innerHTML.split(" ")[0] + " " + this.ammo;
+                }
+            }
+        }
 	}
 
     /** Draws the Survior On the screen */
     draw() {
-        context.drawImage(this.survivorImage, this.posX,this.posY, this.width, this.height); //THIS DRAWS THE Survivor On the Screen 
+        context.drawImage(this.survivorImage, this.posX,this.posY, this.width, this.height); //THIS DRAWS THE Survivor On the Screen
+        //Drawing the Players Bullets
+        this.bullets.forEach((bullet, index) => {
+            bullet.draw();
+        });
+
     }
 
     
@@ -501,6 +598,7 @@ class Survivor {
         this.speed = 2 + parseInt(this.survivorSpeed.innerHTML.split(" ")[1]);  
         this.bulletSpeedNum = 1 + parseInt(this.bulletSpeed.innerHTML.split(" ")[1]); 
         this.bulletDamageNum = 1 + parseInt(this.bulletDamage.innerHTML.split(" ")[1]);
+
     }
 }
 
@@ -1256,8 +1354,6 @@ function main() {
             clickerGame.enableGame(); //Enabling the Clicker Game
 
         };
-        
-
 
     // }, 15000); //Will Start the Game After the Main Menu Screen Is Done 
 
