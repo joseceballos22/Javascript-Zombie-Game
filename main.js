@@ -1,48 +1,5 @@
 
 /**
- * My Game Idea: 
- * 
- * (Main Menu ) It will show these things Every At the beginning in the main function and will show each text every 5 seconds and then start the game
- * Initially: 
- * - Everyone thinks you're crazy
- * - But you know the Truth 
- * - the government is hiding something .... 
- * - And you know something big is coming 
- * 
- * - Starting the Game:
- * - You start with Time equals 86400 Seconds (One Day Real Life)
- * - Every Real Second One Second Goes Down 
- * 
- * - All you have is a button which says (Earn Money) which everytime you click on it it removes 1 second time from the clock and gives you money 
- * - Every time you click it saves your money 
- * - Then you will have options to buy guns waste money but expensive 
- * - Buy Ammo  
- * - Work another job (which will cost you time) but will get you more money faster 
- * 
- * - For the clicker game the user will need money, time, and inventory which is a un ordered list of things the user bought 
- * - These things in the inventory will be taken to the file boss round 
- * 
- * 
- * - Once your time runs out It has begun (The Zombie Survival Game) (watch video on how to build this )
- * - you then switch to a zombie surivial game where all you have is the stuff you saved and your goal is to surive the wave of 100 zombies 
- * And if you do you win other wise you failed 
- * 
- * 
- * 
- */
-
-/**
- * Due Friday MVP STUFF 
- * Things Left To DO For the Zombie Game: 
- * - The entire game will be done on a canvas element 
- * 
- * Things Left for the overall game 
- * - Read the Introduction to the player (record it and use the sound in it )
- * - Add Inviduial Multiplier for bullet , workers, get job, guns (In Clicker Game to give it a better strategy feel)
- * - Submit Game to itch io 
- */
-
-/**
  * Represents the Economy Of the Clicker Game
  * 
  */
@@ -241,6 +198,19 @@ class ZombieGame {
 
         this.zombieSpawnCounter += 1; //Incrementing the Zombie Counter 
 
+        //Updating the KillAmount 
+        const killAmountLst = document.getElementById("objective").innerHTML.split(" ");
+        killAmountLst[14] = this.killAmount;
+        let str ="";
+
+        for(let i = 0; i < killAmountLst.length; i++) {
+            str += killAmountLst[i]; 
+            if(i < killAmountLst.length -1) {
+                str += " ";
+            }
+        }
+        document.getElementById("objective").innerHTML = str;
+
     }
 
     /**
@@ -295,7 +265,22 @@ class ZombieGame {
              * Checking If Bullets Are colliding with the little zombies
              * 
              * Change the killAmount 
+             * 
+             * Nested For Loop 
              */
+            this.survivor.bullets.forEach((bullet, bulletIndex) => {
+                let bulletZombieResult = this.collisionDetector.checkForCollision(bullet, zombie);
+                console.log("Bullet Zombie Result:" + bulletZombieResult);
+                //Colliding Remove Both  
+                if(bulletZombieResult) {
+                    console.log("Zombie and Bullet Colliding ");
+                    this.survivor.bullets.splice(bulletIndex, 1); //Removing the Bullet 
+                    this.zombieList.splice(zombieIndex,1); //Removing the Zombie
+
+                    //Updating the KillAmount
+                    this.killAmount--;
+                }
+            });
 
         });
     }
@@ -305,7 +290,7 @@ class ZombieGame {
  * Represent A Bullet 
  */
 class Bullet {
-    constructor(posX, posY, speed=10, width=20, height=20) {
+    constructor(posX, posY, speed=10, width=50, height=50) {
         
         /**Getting the Bullet Image  */
         this.bulletImage = document.getElementById("bulletImage");
@@ -313,8 +298,8 @@ class Bullet {
         this.width = width; 
         this.height = height;
 
-        this.x = posX;
-        this.y = posY;
+        this.posX = posX;
+        this.posY = posY;
         /**Determines if the Bullet is still in the map */
         this.isInMap = true; //Initially true
 
@@ -326,7 +311,7 @@ class Bullet {
      * Updates the Bullets
      */
     updateComponents()  {
-        this.x = this.x + this.speed
+        this.posX = this.posX + this.speed
         this.checkIfInMap(); //Constantly Checks if the bullet is still in the map 
     }
 
@@ -334,7 +319,7 @@ class Bullet {
      * Determines if the bullet is still in the map 
      */
     checkIfInMap() {
-        if(this.x >= screenW) {
+        if(this.posX >= screenW) {
             this.isInMap = false; 
         }
     }
@@ -343,7 +328,7 @@ class Bullet {
      * Draws the Bullet on the screen
      */
     draw() {
-        context.drawImage(this.bulletImage, this.x,this.y, this.width, this.height); //THIS DRAWS THE Bullet On the Screen 
+        context.drawImage(this.bulletImage, this.posX,this.posY, this.width, this.height); //THIS DRAWS THE Bullet On the Screen 
     }
 }
 
@@ -535,8 +520,8 @@ class Survivor {
         if(keys["32"]) {
             //Limits Bullets So it doesnt waste all player ammo 
             if(this.shootingCounter >= this.shootingRate) {
-                //Player Can only shoot if he has ammo 
-                if(this.ammo > 0) {
+                //Player Can only shoot if he has ammo and has a gun
+                if(this.ammo > 0 && this.userHasPistol) {
                     console.log("player is shooting");
                     this.bullets.push(new Bullet(this.posX, this.posY, this.bulletSpeedNum));
                     console.log("Bullet Count: " + this.bullets.length);
@@ -1305,8 +1290,8 @@ function main() {
     /**
      * ------------- Finished Version (Uncomment Once Done) -------------
      */
-    // showMainMenu(); //First it will show the main menu then go to the game
-    // setTimeout(function() {
+    showMainMenu(); //First it will show the main menu then go to the game
+    setTimeout(function() {
 
         /**Creating the Clicker Game */
         const clickerGame = new ClickerGame(); 
@@ -1355,7 +1340,7 @@ function main() {
 
         };
 
-    // }, 15000); //Will Start the Game After the Main Menu Screen Is Done 
+    }, 15000); //Will Start the Game After the Main Menu Screen Is Done 
 
 
 }
