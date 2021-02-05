@@ -5,6 +5,7 @@
  */
 const USER_MULTIPLIER_FACTOR = 2; //User Will get twice as strong 
 const USER_PRICE_FACTOR = 2; //While prices get Twice As Strong 
+const FUN_MULTIPLER_FACTOR = 100; //This number is Added To the Fun things to make the zombie game funier 
 
 const USER_WEAPON_FACTOR = 10; //Makes it so that they can only Buy 1 Of each 
 
@@ -870,7 +871,7 @@ class UserShop {
                  let newMoney = oldMoney - oldPrice;
                  user.userMoney.innerHTML = userMoney.innerHTML.split(" ")[0] + " " + newMoney; 
  
-                 let newPrice = oldPrice * USER_PRICE_FACTOR; 
+                 let newPrice = oldPrice + FUN_MULTIPLER_FACTOR; 
                  let tempLst = userBuyAmmoTag.innerHTML.split(" ");
                  let firstPartMsg = "";
                  //Don't want the last element
@@ -948,7 +949,7 @@ class UserShop {
                 let newMoney = oldMoney - oldPrice;
                 user.userMoney.innerHTML = userMoney.innerHTML.split(" ")[0] + " " + newMoney; 
 
-                let newPrice = oldPrice * USER_PRICE_FACTOR; 
+                let newPrice = oldPrice + FUN_MULTIPLER_FACTOR; 
                 let tempLst = userBuyPlayerSpeedTag.innerHTML.split(" ");
                 let firstPartMsg = "";
                 //Don't want the last element
@@ -987,7 +988,7 @@ class UserShop {
                 let newMoney = oldMoney - oldPrice;
                 user.userMoney.innerHTML = userMoney.innerHTML.split(" ")[0] + " " + newMoney; 
 
-                let newPrice = oldPrice * USER_PRICE_FACTOR; 
+                let newPrice = oldPrice + FUN_MULTIPLER_FACTOR; 
                 let tempLst = buyBulletSpeedTag.innerHTML.split(" ");
                 let firstPartMsg = "";
                 //Don't want the last element
