@@ -1243,11 +1243,6 @@ function showMainMenu() {
     let main_menu_text_3 = document.getElementById("main_menu_3");
     let main_menu_text_4 = document.getElementById("main_menu_4");
 
-    //Adding Audio 
-    let introMusic = new Audio('sounds/introMusic.mp3');
-
-    introMusic.play();
-
     /**Intially Hide All the Elements  */
     hideText(["main_menu_1","main_menu_2","main_menu_3","main_menu_4"]);
 
@@ -1306,6 +1301,9 @@ function main() {
 
         let isClickerGameRunning = true; //This will determine if the clicker game is currently running 
 
+        document.getElementById("mySong").loop = true;
+        document.getElementById("mySong").play();
+        document.getElementById("mySong").volume = 0.3;
         clickerGame.start(); //Initially The Clicker Game will be running
 
         //This Button is Only Visible While in the Clicker Game And the Clicker Game is time is Over 
