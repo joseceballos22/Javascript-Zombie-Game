@@ -856,7 +856,7 @@ class UserShop {
             if(userHasMoney) {
                 //Updating the User Ammo Count to include an extra one 
                 let oldAmmoCount = parseInt(user.userAmmo.innerHTML.split(" ")[2]); 
-                let newAmmoCount = oldAmmoCount + 1; 
+                let newAmmoCount = oldAmmoCount + 10; 
                 //Getting the First Part 
                 let userAmmoLst = user.userAmmo.innerHTML.split(" ");
                 let userAmmoFirstPart = "";
@@ -933,7 +933,7 @@ class UserShop {
             if(userHasMoney) {
                 //Updating the User Speed Count to include an extra one 
                 let oldCount = parseInt(user.userSpeed.innerHTML.split(" ")[2]); 
-                let newCount = oldCount + 1; 
+                let newCount = oldCount + 5; 
                 //Getting the First Part 
                 let lst = user.userSpeed.innerHTML.split(" ");
                 let firstPart = "";
@@ -973,7 +973,7 @@ class UserShop {
             if(userHasMoney) {
                 //Updating the Bullet Speed Count to include an extra one 
                 let oldCount = parseInt(user.userBulletSpeed.innerHTML.split(" ")[3]); 
-                let newCount = oldCount + 1; 
+                let newCount = oldCount + 5; 
                 //Getting the First Part 
                 let lst = user.userBulletSpeed.innerHTML.split(" ");
                 let firstPart = "";
