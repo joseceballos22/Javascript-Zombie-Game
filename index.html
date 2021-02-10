@@ -40,7 +40,7 @@
             <li id="userPistol">User Pistol: 0</li> 
             <li id="userSpeed">User Speed: 0</li>
             <li id="userBulletSpeed">User Bullet Speed: 0</li>
-            <li id="userBulletDamage">User Bullet Damage: 0</li>
+            <li id="userBulletDamage" style="display: none;">User Bullet Damage: 0</li>
         </ul>
         <div id="userMultiplier" style="display: none;">1</div> <!--Needed to Dynamically Change During Game-->
     </div>
@@ -78,6 +78,10 @@
 
     <!-- This Button Will Switch The Clicker Game To The Zombie Game-->
     <button class="switch_game_button glow-on-hover" id="switchGameButton" style="display: none;">Go Outside</button>
+
+    <!-- This Button Will Show Them A Pop Up OF How to Play -->
+    <button class="how_to_play glow-on-hover" id="howToPlayButton" style="display: none;">How To Play</button>
+
 
     <!-- This Button Will Switch The Zombie Game To The Clicker Game-->
     <button class="switch_game_to_clicker_game glow-on-hover" id="switchToClickerGame" style="display: none;">Go Home</button>

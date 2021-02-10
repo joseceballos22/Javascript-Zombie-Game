@@ -4,7 +4,7 @@
  * 
  */
 const USER_MULTIPLIER_FACTOR = 2; //User Will get twice as strong 
-const USER_PRICE_FACTOR = 2; //While prices get Twice As Strong 
+const USER_PRICE_FACTOR = 3; //While prices get Three As Strong 
 const FUN_MULTIPLER_FACTOR = 100; //This number is Added To the Fun things to make the zombie game funier 
 
 const USER_WEAPON_FACTOR = 10; //Makes it so that they can only Buy 1 Of each 
@@ -684,12 +684,12 @@ class Clicker {
             if(getCurrentTime <= 0) {
                 userTime.innerHTML = userTime.innerHTML.split(" ")[0] + " " + 0;
 
-                //Still Can Earn Money 
-                //Updating Money 
-                let factor =  parseInt(user.userMultiplier.innerHTML);
-                let userNumMoney = parseInt(userMoney.innerHTML.split(" ")[1]); //Getting the latest Money 
-                userNumMoney += factor; //Adding one dollar times the factor for every click 
-                userMoney.innerHTML = userMoney.innerHTML.split(" ")[0] + " " + userNumMoney;  //Incrementing the Money Label
+                // //Still Can Earn Money 
+                // //Updating Money 
+                // let factor =  parseInt(user.userMultiplier.innerHTML);
+                // let userNumMoney = parseInt(userMoney.innerHTML.split(" ")[1]); //Getting the latest Money 
+                // userNumMoney += factor; //Adding one dollar times the factor for every click 
+                // userMoney.innerHTML = userMoney.innerHTML.split(" ")[0] + " " + userNumMoney;  //Incrementing the Money Label
 
             }
         };
@@ -817,12 +817,12 @@ class UserShop {
                         userTime.innerHTML = userTime.innerHTML.split(" ")[0] + " " + 0;
                         
                         console.log("Called")
-                        //Still Can Do Work After Time to Earn Money 
-                        //Updating Money 
-                        let factor =  parseInt(user.userMultiplier.innerHTML);
-                        let userNumMoney = parseInt(userMoney.innerHTML.split(" ")[1]); //Getting the latest Money 
-                        userNumMoney += factor; //Adding one dollar times the factor for every click 
-                        userMoney.innerHTML = userMoney.innerHTML.split(" ")[0] + " " + userNumMoney;  //Incrementing the Money Label
+                        // //Still Can Do Work After Time to Earn Money 
+                        // //Updating Money 
+                        // let factor =  parseInt(user.userMultiplier.innerHTML);
+                        // let userNumMoney = parseInt(userMoney.innerHTML.split(" ")[1]); //Getting the latest Money 
+                        // userNumMoney += factor; //Adding one dollar times the factor for every click 
+                        // userMoney.innerHTML = userMoney.innerHTML.split(" ")[0] + " " + userNumMoney;  //Incrementing the Money Label
 
                     }
 
@@ -1138,6 +1138,9 @@ class ClickerGame {
         //Switch Game Button 
         this.switchGameButton = document.getElementById("switchGameButton");
 
+        //How to Play button 
+        this.howToPlayButton = document.getElementById("howToPlayButton");
+
     }
     /**
      * Starts the Game 
@@ -1218,6 +1221,7 @@ class ClickerGame {
         document.getElementsByTagName("body")[0].style.backgroundImage = "url(images/whiteBackground.png)"; //Just going to use a white background
         document.getElementById("title").style.display = "none"; //Disabling Title 
         this.switchGameButton.style.display = "none"; //Disabling Button 
+        this.howToPlayButton.style.display = "none"; //Disabling the Button 
      }
 
      /**
@@ -1230,6 +1234,7 @@ class ClickerGame {
         document.getElementsByTagName("body")[0].style.backgroundImage = "url(images/happyBackground.jpg)"; 
         document.getElementById("title").style.display = "block"; //Enabling Title 
         this.switchGameButton.style.display = "block"; //Enabling The Button So they Can Go Back and fourth
+        this.howToPlayButton.style.display = "block"; //Enabling the Button so they can view the instructions again 
      }
 }
 
@@ -1299,6 +1304,9 @@ function main() {
         const switchGameButton = document.getElementById("switchGameButton");
         const goToClickerGameButton = document.getElementById("switchToClickerGame");
 
+        //How to Play Button 
+        const howToPlayButton = document.getElementById("howToPlayButton");
+
         let isClickerGameRunning = true; //This will determine if the clicker game is currently running 
 
         document.getElementById("mySong").loop = true;
@@ -1306,8 +1314,27 @@ function main() {
         document.getElementById("mySong").volume = 0.3;
 
         document.getElementById("switchGameButton").style.display = "block"; //Allowing the User to go outside
+        document.getElementById("howToPlayButton").style.display = "block"; //Allowing the User To View How to Play
 
         clickerGame.start(); //Initially The Clicker Game will be running
+
+        //This Button is only visible while in the clicker game 
+        howToPlayButton.onclick = function() {
+            alert("------------ Welcome to Zombie Clicker: ------------\n\n" +
+            "You have exactly One Day = 86400 seconds\nTo prepare as much supplies as possible \n" + 
+            "After that no more supplies may be gathered \n" +
+            "Click the Prepare Button To Find Supplies And\n" + 
+            "You can Upgrade your rate as well as automate the process with the\n" +
+            "Double Supplies Multiplier\n" +
+            "And Look For Survivors buttons respectively\n\n" +
+            "------------The Goal of the game:------------\nIs to kill off the zombie horde which consists of 40 zombies \n" +
+            "But before going outside it is recommended to have purchased a pistol and at least 40 bullets of ammo\n" +
+            "You can also upgrade your speed as well as your bullet speed which will allow you to beat the game in record time \n\n" +
+            "------------ Warning: ------------\n" +
+            "Every Time you go outside and come back home the zombies will get STRONGER!!! YOU HAVE BEEN WARNED \n\n" +
+            "Enjoy :) "  
+            );
+        };
 
         //This Button is Only Visible While in the Clicker Game And the Clicker Game is time is Over 
         switchGameButton.onclick = function() {
